@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/custom.css">
 
-    <title>Hello, world!</title>
+		<title>Hello, world!</title>
+		<script type="text/javascript" src="js/custom.js"></script>
 </head>
 
 <body>
@@ -64,10 +65,16 @@
                         <form class="dtp-picker-form otkit"><input type="hidden" name="timezoneOffset"
                                 title="timezoneOffset" value="330">
                             <div class="dtp-picker-selectors-container">
-                                <div class="party-size-picker dtp-picker-selector select-native unselected-on-init people"> <a
-                                        class="select-label dtp-picker-selector-link" tabindex="-1">2 people</a>
-                                        <select name="Select_1" aria-label="party size">    <option value="1">1 person</option>    <option value="2">2 people</option>    <option value="3">3 people</option>    <option value="4">4 people</option>    <option value="5">5 people</option>    <option value="6">6 people</option>    <option value="7">7 people</option>    <option value="8">8 people</option>    <option value="9">9 people</option>    <option value="10">10 people</option>    <option value="11">11 people</option>    <option value="12">12 people</option>    <option value="13">13 people</option>    <option value="14">14 people</option>    <option value="15">15 people</option>    <option value="16">16 people</option>    <option value="17">17 people</option>    <option value="18">18 people</option>    <option value="19">19 people</option>    <option value="20">20 people</option>    <option value="21">Larger party</option>  </select>
-                                    </div>
+                                <div class="party-size-picker dtp-picker-selector select-native unselected-on-init people">
+																	<a class="select-label dtp-picker-selector-link selected-person" tabindex="-1"> 0 Person</a>
+                                  <select id="person-select" name="person-select" aria-label="party size" onchange="changeSelectedPerson()">
+	                                  <?php
+																			for ($i = 1; $i < 4; $i++) {
+																				print '<option value="' . $i . '">' . $i . ' Person</option>';
+																			}
+																		?>
+																	</select>
+                                </div>
                                 <div class="date-picker dtp-picker-selector"> <a
                                         class="dtp-picker-selector-link date-label dtp-picker-label">Jul 26, 2019</a>
                                     <input type="hidden" name="submit_datepicker" id="submit_datepicker"
@@ -76,7 +83,7 @@
                                         class="select-label dtp-picker-selector-link" tabindex="-1">7:00 PM</a> </div>
                             </div>
                             <input type="submit" value="Let's go" class="button dtp-picker-button">
-                        </form> 
+                        </form>
                     </div>
                 </div>
             </div>
