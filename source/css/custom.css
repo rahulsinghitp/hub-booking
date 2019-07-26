@@ -1,0 +1,218 @@
+.hero-area {
+    padding: 100px 0 0;
+}
+.bg-1 {
+    background: url(../images/home/hero.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}   
+.overly {
+    position: relative;
+}
+.overly:before {
+    content: '';
+    background: rgba(0, 0, 0, 0.51);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.hero-area .content-block {
+    padding-bottom: 80px;
+}
+.dtp-picker .dtp-picker-form.otkit {
+    display: flex;
+    justify-content: center;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container {
+    display: flex;
+    min-width: 480px;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector:first-child {
+    order: 3;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-right: 1px solid rgba(0,0,0,0.08);
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector {
+    align-items: center;
+    display: flex;
+    flex-basis: 33.3%;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    padding-left: .5rem;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector .dtp-picker-selector-link {
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    font-style: normal;
+    height: auto;
+    padding: .8125rem;
+    padding-right: 2rem;
+    padding-left: .5rem;
+    -webkit-appearance: none;
+    white-space: nowrap;
+    width: 100%;
+}
+.dtp-picker-selector-link {
+    position: relative;
+    display: block;
+    color: #333;
+    padding-top: .8125rem;
+    height: 3rem;
+    line-height: 1.2rem;
+    z-index: 1;
+    text-align: center;
+}
+.dtp-picker-selector-link:after {   color: #999;
+    font-size: 1rem;
+    position: absolute;
+    right: 50%;
+    margin-right: -.5rem;
+    bottom: 0;
+}
+.dtp-picker-selector select {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    color: #333;
+    background-color: #fff;
+    z-index: 2;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector .dtp-picker-selector-link {
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    font-style: normal;
+    height: auto;
+    padding: .8125rem;
+    padding-right: 2rem;
+    padding-left: .5rem;
+    -webkit-appearance: none;
+    white-space: nowrap;
+    width: 100%;
+}
+.date-picker .dtp-picker-label {
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector:nth-child(2) {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    order: 1;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector::after {
+    content: '';
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+.time-picker.dtp-picker-selector.select-native.unselected-on-init {
+    border-radius: 0 !important;
+}
+.dtp-picker-selector-link:after {
+     font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f0dd";
+    color: #999; 
+    width: 24px;
+    height: 24px;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.party-size-picker::after {
+    width: 24px;
+    height: 24px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f784";
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::after {
+    width: 24px;
+    height: 24px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f784";
+}
+.dtp-picker-selector {
+    width: 33.3333%;
+    float: left;
+    background: #fff;
+    position: relative;
+    height: 3rem;
+    margin: 0;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-bottom: none;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector::after {
+    width: 24px;
+    height: 24px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f784";
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector:nth-child(3) {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    order: 1;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container {
+    align-items: center;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin: 0 1.5rem;
+    width: 290px;
+    display: flex;
+}
+.dtp-picker-search-container {
+    height: 3rem;
+    position: relative;
+    clear: both;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+.dtp-picker-search-container input {
+    border: 0;
+    margin: 0;
+    width: 100%;
+    outline: none;
+    box-shadow: none;
+    font-size: 1rem;
+    padding: .75rem .9375rem .8125rem 2rem;
+    background: transparent;
+    font-weight: 400;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    clear: both;
+}
+.dtp-picker .twitter-typeahead {
+    width: 100%;
+}
+@media only screen and (min-width: 40.0625em)
+{
+.dtp-picker-selector-link {
+    padding: .8125rem 1rem;
+    text-align: left;
+}
+}
+@media only screen and (min-width: 25.0625em)
+{
+.dtp-picker-selector-link:after {
+    top: 0.7rem;
+    right: 0.875rem;
+}
+}
