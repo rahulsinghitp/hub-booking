@@ -53,7 +53,7 @@ function get_availiable_time_slots() {
   $add_mins  = $duration * 60;
   $time_slots = array();
   while ($start_time <= $end_time) {
-    $gmt_time = gmdate('h:i A', $start_time);
+    $gmt_time = gmdate('H:i', $start_time);
     $time = date("h:i A", $start_time);
     $time_slots[$gmt_time] = $time;
     $start_time += $add_mins; // to check endtie=me
@@ -71,12 +71,19 @@ function get_hub_booking_list($param = array()) {
   }
   $conn = $param['connection'];
   $query = "SELECT * FROM hub_booking";
+  if (!empty($param['hub_booking_date'])) {
+    $query .= " WHERE hub_booking_date='{$param['hub_booking_date']}'";
+  }
+  $query .= ';';
   $result = mysqli_query($conn, $query);
   $hub_booking_list = array();
   if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_array($result)) {
       $id = $row['hub_booking_id'];
       $hub_booking_list[$id] = $row;
+      $hub_booking_list[$id]['custom_hub_booking_time'] = date('H:i', strtotime($row['hub_booking_time']));
     }
   }
+
+  return $hub_booking_list;
 }

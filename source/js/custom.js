@@ -1,3 +1,6 @@
+// Global Variable
+var BasePath = 'http://localhost/hub-booking/source/';
+
 function changeSelectedPerson() {
     var selectedPerson = $('#person-select').val();
     $('.selected-person').text(selectedPerson+' Person');
@@ -21,9 +24,41 @@ $(function() {
       showOtherMonths: true,
       selectOtherMonths: true,
       dateFormat: "D, d M, yy",
+      onSelect: function(dateText) {
+        changeTimeSlotOptions(dateText);
+      }
     });
     $("#datepicker").datepicker('setDate', 'today');
+    var defaultDate = $('#datepicker').val();
+    changeTimeSlotOptions(defaultDate);
 });
+
+// When Date Picker is changed
+function changeTimeSlotOptions(dateText) {
+
+    // Hide the Time SLots which are already booked
+    $.ajax({
+        url: BasePath+'hub_booking_list.php',
+        type: 'post',
+        dataType: 'json',
+        data: {booking_date: dateText},
+        success: function(result) {
+            var bookedSlots = [];
+            $.each(result, function(key, val) {
+                bookedSlots.push(val.custom_hub_booking_time);
+            });
+
+            // Loop through time slot select options
+            $.each($('#time-slot-select option'), function() {
+                var slot = $(this).val();
+                $(this).show();
+                if (bookedSlots.indexOf(slot) != -1) {
+                    $(this).hide();
+                }
+            });
+        }
+    });
+}
 
 $('.slider').slick({
     dots: true,
@@ -76,10 +111,12 @@ $("#hub-booking-step-1").submit(function(event) {
     var selectedTime = $(".selected-time").html();
     var SelectedTimeInGMT = ReverseTimeSlots[selectedTime];
     var selectedDate = $("#datepicker").val();
-    var selectedPerson = $('.selected-person').html().replace (/[^\d.]/g, '' );
+    var selectedPerson = $('.selected-person').html().replace(/[^\d.]/g, '' );
     var selectedEquipments = [];
-    $.each($("input[name='rGroup']:checked"), function(){
+    $.each($("input[name='rGroup']:checked"), function() {
         selectedEquipments.push($(this).val());
     });
-    event.preventDefault();
+    if (!($.isNumeric(selectedPerson)) || SelectedTimeInGMT == 'undefined') {
+        event.preventDefault();
+    }
 });

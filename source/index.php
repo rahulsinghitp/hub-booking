@@ -70,7 +70,7 @@
                                 title="timezoneOffset" value="330">
                             <div class="dtp-picker-selectors-container">
                                 <div class="party-size-picker dtp-picker-selector select-native unselected-on-init people">
-																	<a class="select-label dtp-picker-selector-link selected-person" tabindex="-1"> 0 Person</a>
+																	<a class="select-label dtp-picker-selector-link selected-person" tabindex="-1"> Select </a>
                                   <select id="person-select" name="person-select" aria-label="party size" onchange="changeSelectedPerson()">
 	                                  <?php
 																			for ($i = 1; $i < 4; $i++) {
@@ -83,7 +83,7 @@
                                   <input class="dtp-picker-selector-link date-label dtp-picker-label" type="text" id="datepicker">
                                 </div>
                                 <div class="time-picker dtp-picker-selector select-native unselected-on-init time">
-																	<a class="select-label dtp-picker-selector-link selected-time" tabindex="-1"><?php print date("h") . ':00 ' . date('A'); ?></a>
+																	<a class="select-label dtp-picker-selector-link selected-time" tabindex="-1"> Select </a>
 																	<select id="time-slot-select" name="time-slot-select" aria-label="party size" onchange="changeSelectedTime()">
 																		<?php
 																			$time_slots = get_availiable_time_slots();
