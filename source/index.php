@@ -1,3 +1,6 @@
+<?php
+	require_once('connect.php');
+?>
 <!doctype html>
 <html lang="en">
 
@@ -10,9 +13,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/custom.css">
-
+    <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+	 	<link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css"/>
 		<title>Hello, world!</title>
-		<script type="text/javascript" src="js/custom.js"></script>
 </head>
 
 <body>
@@ -62,7 +66,7 @@
                     <!-- Header Contetnt -->
                     <div id="dtp-picker-4" data-event-prefix=""
                         class="dtp-picker dtp-lang-en  with-search single-search  initialised">
-                        <form class="dtp-picker-form otkit"><input type="hidden" name="timezoneOffset"
+                        <form id="hub-booking-step-1" class="dtp-picker-form otkit"><input type="hidden" name="timezoneOffset"
                                 title="timezoneOffset" value="330">
                             <div class="dtp-picker-selectors-container">
                                 <div class="party-size-picker dtp-picker-selector select-native unselected-on-init people">
@@ -74,28 +78,59 @@
 																			}
 																		?>
 																	</select>
+																</div>
+																<div class="date-picker dtp-picker-selector">
+                                  <input class="dtp-picker-selector-link date-label dtp-picker-label" type="text" id="datepicker">
                                 </div>
-                                <div class="date-picker dtp-picker-selector"> <a
-                                        class="dtp-picker-selector-link date-label dtp-picker-label">Jul 26, 2019</a>
-                                    <input type="hidden" name="submit_datepicker" id="submit_datepicker"
-                                        value="2019-07-26" aria-label="date"></div>
-                                <div class="time-picker dtp-picker-selector select-native unselected-on-init time"> <a
-                                        class="select-label dtp-picker-selector-link" tabindex="-1">7:00 PM</a> </div>
+                                <div class="time-picker dtp-picker-selector select-native unselected-on-init time">
+																	<a class="select-label dtp-picker-selector-link selected-time" tabindex="-1"><?php print date("h") . ':00 ' . date('A'); ?></a>
+																	<select id="time-slot-select" name="time-slot-select" aria-label="party size" onchange="changeSelectedTime()">
+																		<?php
+																			$time_slots = get_availiable_time_slots();
+																			foreach ($time_slots as $gmt_time => $time) {
+																				print '<option value="' . $gmt_time . '">' . $time . '</option>';
+																			}
+																		?>
+																	</select>
+																</div>
                             </div>
                             <input type="submit" value="Let's go" class="button dtp-picker-button">
-                        </form>
+												</form>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Container End -->
+		</section>
+		<section class="hero-area bg-1 text-center overly slider-data">
+      <!-- Container Start -->
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="slider">
+						<?php
+							$equipments = get_equipment_list($conn);
+							foreach ($equipments as $equipment) {
+								$equipment_desc = !empty($equipment['equipment_description']) ? $equipment['equipment_description'] : '';
+								$id = $equipment['equipment_id'];
+								$checkbox_id = "r{$id}";
+								print '<div class="parent-slider"><label class="child-slide" for="' . $checkbox_id . '">';
+								print '<img src="./equipment_images/' . $equipment['equipment_image_name'] . '" />';
+								print '<p class="slide-data">' . $equipment_desc . '</p>';
+								print	'<input type="checkbox" name="rGroup" value="' . $id . '" id="' . $checkbox_id . '" /></div>';
+							}
+						?>
+						</div>
+          </div>
+        </div>
+      </div>
     </section>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
+		<script src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/slick.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/custom.js"></script>
 </body>
-
 </html>

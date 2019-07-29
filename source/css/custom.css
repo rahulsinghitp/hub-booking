@@ -21,21 +21,15 @@
 .hero-area .content-block {
     padding-bottom: 80px;
 }
-.dtp-picker .dtp-picker-form.otkit {
-    display: flex;
-    justify-content: center;
-}
+ 
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container {
     display: flex;
-    min-width: 480px;
+    min-width: 650px;
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector:first-child {
     order: 3;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-right: 1px solid rgba(0,0,0,0.08);
+    border-radius: 4px;
+     border-right: 1px solid rgba(0,0,0,0.08);
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector {
     align-items: center;
@@ -45,9 +39,9 @@
     justify-content: flex-end;
     padding-left: .5rem;
 }
-.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector .dtp-picker-selector-link {
+/* .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector .dtp-picker-selector-link {
     border: none;
-    border-radius: 0;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 500;
@@ -59,7 +53,7 @@
     -webkit-appearance: none;
     white-space: nowrap;
     width: 100%;
-}
+} */
 .dtp-picker-selector-link {
     position: relative;
     display: block;
@@ -91,9 +85,19 @@
     background-color: #fff;
     z-index: 2;
 }
+/* .dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container .dtp-picker-search-icon {
+    top: auto;
+    left: 0.5em;
+} */
+/* .dtp-picker-search-container .dtp-picker-search-icon {
+    position: absolute;
+    top: 1rem;
+    left: .5rem;
+    color: #999;
+} */
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector .dtp-picker-selector-link {
     border: none;
-    border-radius: 0;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 500;
@@ -112,8 +116,8 @@
     pointer-events: none;
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector:nth-child(2) {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-radius: 4px;
+    /* border-bottom-left-radius: 4px; */
     order: 1;
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selector::after {
@@ -124,29 +128,24 @@
     display: inline-block;
 }
 .time-picker.dtp-picker-selector.select-native.unselected-on-init {
-    border-radius: 0 !important;
+    border-radius: 4px !important;
 }
 .dtp-picker-selector-link:after {
      font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f0dd";
-    color: #999; 
-    width: 24px;
-    height: 24px;
+    color: #999;  
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.party-size-picker::after {
-    width: 24px;
-    height: 24px;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f784";
 }
-.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::after {
-    width: 24px;
-    height: 24px;
-    font-family: "Font Awesome 5 Free";
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::after { 
+     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f784";
+    
 }
 .dtp-picker-selector {
     width: 33.3333%;
@@ -158,10 +157,63 @@
     border: 1px solid rgba(0,0,0,0.08);
     border-bottom: none;
 }
+
+/* .dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container .icon-search::before {
+     font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f689";
+    color: #000;
+} */
+
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-button {
+    width: 144px;
+    border-radius: 4px;
+    font-weight: 700;
+}
+body.start .dtp-picker-button, body.home .dtp-picker-button {
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+.button {
+    border-style: solid;
+    border-width: 0;
+    cursor: pointer;
+    font-family: BrandonText,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0 0 1rem;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    outline: none;
+    border-radius: 4px;
+    display: inline-block;
+    background-color: #da3743;
+    border-color: #b8222d;
+    color: #fff;
+    transition: background-color 300ms ease-out;
+    padding-top: .875rem;
+    padding-right: 1.75rem;
+    padding-bottom: .9375rem;
+    padding-left: 1.75rem;
+    font-size: 1rem;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container div {
+    margin: 0px 10px;
+}
+div#dtp-picker-4 {
+     border: none;
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    justify-content: space-evenly;
+    margin: 0;
+    width: 100%;
+}
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selector::after {
-    width: 24px;
-    height: 24px;
-    font-family: "Font Awesome 5 Free";
+   font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f784";
 }
@@ -170,14 +222,14 @@
     border-bottom-left-radius: 4px;
     order: 1;
 }
-.dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container {
+/* .dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container {
     align-items: center;
     border-radius: 4px;
     flex-shrink: 0;
     margin: 0 1.5rem;
     width: 290px;
     display: flex;
-}
+} */
 .dtp-picker-search-container {
     height: 3rem;
     position: relative;
@@ -185,7 +237,7 @@
     background: #fff;
     border: 1px solid rgba(0,0,0,0.08);
 }
-.dtp-picker-search-container input {
+/* .dtp-picker-search-container input {
     border: 0;
     margin: 0;
     width: 100%;
@@ -198,9 +250,41 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     clear: both;
-}
+} */
 .dtp-picker .twitter-typeahead {
     width: 100%;
+}
+.slick-slide {
+    margin: 0 27px;
+  }
+  /* the parent */
+  .slick-list {
+    margin: 0 -27px;
+  }
+  .child-slide img {
+    width: 100%;
+}
+.child-slide{
+    padding: 10px;
+}
+.parent-slider input[type=checkbox]{
+    display: none;
+ }
+
+ .parent-slider input[type=checkbox]:checked + .child-slide{
+     background-color: red;
+}
+.selected .child-slide {
+    background-color: #ececec;
+}
+@media only screen and (max-width: 767px)
+{
+    .dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container { 
+margin: 10px 0px;
+    }
+    .dtp-picker .dtp-picker-form.otkit { 
+        flex-direction: column;
+    }
 }
 @media only screen and (min-width: 40.0625em)
 {
@@ -208,11 +292,42 @@
     padding: .8125rem 1rem;
     text-align: left;
 }
+.dtp-picker .dtp-picker-form.otkit {
+    display: flex;
+    justify-content: center;
+}
 }
 @media only screen and (min-width: 25.0625em)
 {
 .dtp-picker-selector-link:after {
     top: 0.7rem;
     right: 0.875rem;
+}
+}
+@media only screen and (max-width: 768px)
+{
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container { 
+    width: auto;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container {
+     min-width: auto;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector .dtp-picker-selector-link {
+    font-size: .8rem;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::after {  
+    font-size: 12px;
+   margin-top: 5px;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector::after {
+    font-size: 12px;
+   margin-top: 5px;
+ }
+ .dtp-picker-selector-link:after {  
+     display: none;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container .icon-search::before {
+    font-size: 12px;
+   margin-top: 5px;
 }
 }
