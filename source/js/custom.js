@@ -119,4 +119,63 @@ $("#hub-booking-step-1").submit(function(event) {
     if (!($.isNumeric(selectedPerson)) || SelectedTimeInGMT == 'undefined') {
         event.preventDefault();
     }
+
+    localStorage.setItem('selectedPerson', selectedPerson);
+    localStorage.setItem('selectedTimeInGMT', SelectedTimeInGMT);
+    localStorage.setItem('selectedDate', selectedDate);
+    localStorage.setItem('selectedTime', selectedTime);
+    localStorage.setItem('selectedEquipments', selectedEquipments);
+});
+
+function backToHomePage() {
+    localStorage.setItem('selectedPerson', '');
+    localStorage.setItem('selectedTimeInGMT', '');
+    localStorage.setItem('selectedDate', '');
+    localStorage.setItem('selectedEquipments', '');
+}
+
+// Code for timer start of 5 minutes
+function startTimer() {
+  var presentTime = $('#timer').html();
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if (s == 59) {
+    m = m-1;
+  }
+  $('#timer').html(m + ":" + s);
+  if (m != 0 || s != 0) {
+    setTimeout(startTimer, 1000);
+  }
+  else {
+    $('#book-the-hub').hide();
+  }
+  $('.selected-date').val(localStorage.getItem('selectedDate'));
+  $('.selected-person').val(localStorage.getItem('selectedPerson'));
+  $('.selected-time').val(localStorage.getItem('selectedTime'));
+}
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
+
+$("#hub-booking-step-2").submit(function(event) {
+    var selectedDate = localStorage.getItem('selectedDate');
+    var selectedTimeInGMT = localStorage.getItem('selectedTimeInGMT');
+    var selectedPerson = localStorage.getItem('selectedPerson');
+    var selectedEquipments = localStorage.getItem('selectedEquipments');
+    var firstName = $('#first-name').val();
+    var lastName = $('#last-name').val();
+    var email = $('#email').val();
+    var Purpose = $('#purpose').val();
+
+
+    // Clear the Local Storage Item which are set on Step 1
+    localStorage.setItem('selectedPerson', '');
+    localStorage.setItem('selectedTimeInGMT', '');
+    localStorage.setItem('selectedDate', '');
+    localStorage.setItem('selectedTime', '');
+    localStorage.setItem('selectedEquipments', '');
 });

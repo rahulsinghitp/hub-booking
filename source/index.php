@@ -65,8 +65,8 @@
                 <div class="col-md-12">
                     <!-- Header Contetnt -->
                     <div id="dtp-picker-4" data-event-prefix=""
-                        class="dtp-picker dtp-lang-en  with-search single-search  initialised">
-                        <form id="hub-booking-step-1" class="dtp-picker-form otkit"><input type="hidden" name="timezoneOffset"
+												class="dtp-picker dtp-lang-en  with-search single-search  initialised">
+                        <form id="hub-booking-step-1" class="dtp-picker-form otkit" action="hub_booking_step_2.php"><input type="hidden" name="timezoneOffset"
                                 title="timezoneOffset" value="330">
                             <div class="dtp-picker-selectors-container">
                                 <div class="party-size-picker dtp-picker-selector select-native unselected-on-init people">

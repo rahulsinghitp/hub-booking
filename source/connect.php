@@ -87,3 +87,17 @@ function get_hub_booking_list($param = array()) {
 
   return $hub_booking_list;
 }
+
+/**
+ * Get Last Hub booking ID
+ */
+function get_last_hub_booking_id($conn) {
+  $query = "SELECT hub_booking_id FROM hub_booking ORDER BY hub_booking_entry_datetime DESC LIMIT 0, 1";
+  if (!empty($param['hub_booking_date'])) {
+  }
+  $result = mysqli_query($conn, $query);
+  $row = mysqli_fetch_array($result);
+  $last_hub_booking_id = isset($row['hub_booking_id']) ? $row['hub_booking_id'] : '';
+
+  return $last_hub_booking_id;
+}
