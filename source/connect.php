@@ -101,3 +101,46 @@ function get_last_hub_booking_id($conn) {
 
   return $last_hub_booking_id;
 }
+
+/**
+ * Get User details for email ID
+ */
+function get_user_detail_by_email_id($conn, $user_id) {
+  $sql = "SELECT user_id, username, password, email, firstname, lastname, phone_number FROM user WHERE user_id='{$user_id}' LIMIT 0, 1";
+  $result = mysqli_query($conn, $sql);
+  $row = mysqli_fetch_array($result);
+
+  return !empty($row['user_id']) ? $row : array();
+}
+
+/**
+ * Get Unique username depending on Firstname and Lastname
+ */
+function get_unique_username($connect, $firstname, $lastname, $count = 0) {
+  if (empty($firstname) || empty($lastname)) {
+    return '';
+  }
+  $trimmed_firstname = str_replace(' ', '_', strtolower($firstname));
+  $trimmed_lastname = str_replace(' ', '_', strtolower($lastname));
+  $username = $trimmed_firstname . '.' . $trimmed_lastname;
+  $username .= !empty($count) ? '.' . $count : '';
+  if (is_username_exists($connect, $username)) {
+    $index = $count + 1;
+    $username = get_unique_username($connect, $firstname, $lastname, $index);
+  }
+  else {
+    return $username;
+  }
+
+  return $username;
+}
+
+/**
+ * Function to check username already exist or not in system
+ */
+function is_username_exists($connect, $username) {
+  $sql = "SELECT COUNT(*) AS count FROM user WHERE username='{$username}'";
+  $result = mysqli_query($connect, $sql);
+  $row = mysqli_fetch_array($result);
+  return !empty($row['count']) ? true : false;
+}

@@ -1,10 +1,38 @@
-.hero-area {
+/* .hero-area {
     padding: 100px 0 0;
+} */
+
+h1,h2,h3,h4,h5,h6,p,span,small,a{
+    font-family: 'Roboto', sans-serif !important;
 }
+.navbar {
+    height: 80px;
+    background-color: transparent;
+    border: none;
+    color: #000;
+    z-index: 100;
+    transition: background-color 1s ease 0s;
+  }
+   
+  
+  /* Solid class attached on scroll past first section */
+  .navbar.solid {
+    background-color: #fff;
+    transition: background-color 1s ease 0s;
+    box-shadow: 0 0 4px grey;
+  } 
+  
 .bg-1 {
-    background: url(../images/home/hero.jpg);
+    background: url(https://demos.creative-tim.com/marketplace/material-kit-pro/assets/img/kit/pro/bg0.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 70vh;
 }   
 .overly {
     position: relative;
@@ -24,7 +52,7 @@
  
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container {
     display: flex;
-    min-width: 650px;
+    width: 100%;
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector:first-child {
     order: 3;
@@ -38,6 +66,17 @@
     flex-direction: row-reverse;
     justify-content: flex-end;
     padding-left: .5rem;
+}
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f107";
+    color: #999;
+    margin-right: 5px;
+}
+
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker .dtp-picker-selector-link{
+    padding-right: .7rem !important;
 }
 /* .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector .dtp-picker-selector-link {
     border: none;
@@ -64,6 +103,14 @@
     z-index: 1;
     text-align: center;
 }
+
+.slick-slide img {
+    display: block;
+    min-height: 86px;
+    min-width: 86px;
+    object-fit: cover;
+}
+
 .dtp-picker-selector-link:after {   color: #999;
     font-size: 1rem;
     position: absolute;
@@ -99,13 +146,13 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
     font-style: normal;
     height: auto;
     padding: .8125rem;
     padding-right: 2rem;
-    padding-left: .5rem;
+    padding-left: 1.2rem;
     -webkit-appearance: none;
     white-space: nowrap;
     width: 100%;
@@ -132,20 +179,21 @@
 }
 .dtp-picker-selector-link:after {
      font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f0dd";
-    color: #999;  
+     font-weight: 900;
+     content: "\f107";
+     color: #999;
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.party-size-picker::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     content: "\f784";
 }
-.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::after { 
+.dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::after {
      font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f784";
-    
+     font-weight: 600;
+     content: "\f784";
+     color: #50535a;
+     font-size: 14px;
 }
 .dtp-picker-selector {
     width: 33.3333%;
@@ -164,11 +212,22 @@
     content: "\f689";
     color: #000;
 } */
-
+.row.select-option .col-md-12 {
+    position: static;
+}
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-button {
-    width: 144px;
     border-radius: 4px;
     font-weight: 700;
+    position: absolute;
+    right: -25px;
+    top: 50%;
+    z-index: 1;
+    width: 50px;
+    height: 120px;
+    background-image: url(../img/arrow.png);
+    transform: translateY(-50%);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 body.start .dtp-picker-button, body.home .dtp-picker-button {
     color: white;
@@ -180,42 +239,37 @@ body.start .dtp-picker-button, body.home .dtp-picker-button {
     border-style: solid;
     border-width: 0;
     cursor: pointer;
-    font-family: BrandonText,Helvetica Neue,Helvetica,Arial,sans-serif;
-    font-weight: 500;
-    line-height: normal;
-    margin: 0 0 1rem;
-    position: relative;
-    text-decoration: none;
-    text-align: center;
+        position: relative;
+     text-align: center;
     outline: none;
     border-radius: 4px;
-    display: inline-block;
-    background-color: #da3743;
-    border-color: #b8222d;
+     background-color: #3e82ff;
+    border-color: #3e82ff;
     color: #fff;
     transition: background-color 300ms ease-out;
-    padding-top: .875rem;
-    padding-right: 1.75rem;
-    padding-bottom: .9375rem;
-    padding-left: 1.75rem;
-    font-size: 1rem;
+   
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container div {
     margin: 0px 10px;
 }
 div#dtp-picker-4 {
-     border: none;
-    display: flex;
-    flex-direction: column;
-    height: 50vh;
-    justify-content: space-evenly;
-    margin: 0;
-    width: 100%;
+     /* border: none; */
+     /* display: flex; */
+     /* flex-direction: column; */
+     /* height: 50vh; */
+     /* justify-content: space-evenly; */
+     /* margin: 0; */
+     /* width: 100%; */
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selector::after {
    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    content: "\f784";
+   font-weight: 900;
+   content: "\f784";
+   font-family: "Font Awesome 5 Free";
+   font-weight: 600;
+   content: "\f784";
+   color: #50535a;
+   font-size: 14px;
 }
 .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container .dtp-picker-selector:nth-child(3) {
     border-top-left-radius: 4px;
@@ -251,11 +305,17 @@ div#dtp-picker-4 {
     text-overflow: ellipsis;
     clear: both;
 } */
+div#dtp-picker-4 {
+    margin: 30px 0px;
+}
+.dtp-picker-selector {
+    border: solid 1px #e9edf6;
+}
 .dtp-picker .twitter-typeahead {
     width: 100%;
 }
 .slick-slide {
-    margin: 0 27px;
+    margin: 0 10px;
   }
   /* the parent */
   .slick-list {
@@ -264,8 +324,13 @@ div#dtp-picker-4 {
   .child-slide img {
     width: 100%;
 }
-.child-slide{
-    padding: 10px;
+.child-slide {
+    /* padding: 10px; */
+    width: 100%;
+    margin-bottom: 0;
+    border: solid 1px #e5e9f4;
+    border-radius: 4px;
+    min-height: 100px;
 }
 .parent-slider input[type=checkbox]{
     display: none;
@@ -275,10 +340,428 @@ div#dtp-picker-4 {
      background-color: red;
 }
 .selected .child-slide {
-    background-color: #ececec;
+     border: solid 1px #3e82ff;
+}
+.slider-container{
+    margin: -60px 30px 0;
+    border-radius: 6px;
+    box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+    background: #fff;
+    position: relative;
+     margin: 0 auto;
+    margin-top: -80px;
+}
+.slider-option h3, .slider-option p {
+    text-align: left;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+.slider-option P{
+    font-size: 11px;
+    font-weight: 200;
+    color: #b1b8c8;
+    margin: 0px 15px;
+    overflow: auto;
+ }
+ .slider-option P span:first-child {
+    float: left;
+ }
+ .slider-option P span:last-child {
+    float: right;
+ }
+ 
+ .slick-dots li button::before {
+    font-size: 15px !important;
+    opacity: .3 !important;
+}
+.slick-dots li.slick-active button:before{
+    font-size: 15px !important;
+    opacity: 1 !important;
+    color: #3e82ff !important;
+}
+ .selected label.child-slide img {
+    max-width: 100%;
+    width: auto;
+    /* height: auto; */
+    object-fit: cover;
+    display: inline-block;
+    float: left;
+    background-color: red;
+}
+
+label.child-slide .slide-data {
+    /* display: inline-block; */
+    /* float: left; */
+}
+p.slide-data {
+    font-size: 15px;
+    color: #000;
+    display: block;
+    display: table-cell;
+    vertical-align: middle;
+    width: 228px;
+    padding-left: 10px;
+    font-weight: 600;
+    line-height: 24px;
+}
+.slider {
+    margin-top: 30px;
+}
+.selected label.child-slide img {
+    opacity: 0.3;
+    /* background: red; */
+    /* background-color: red; */
+}
+
+.color {
+    background: #3e82ff;
+    width: 86px;
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    /* min-height: 86px; */
+    /* min-width: 86px; */
+}
+.parent-slider {
+    outline: none;
+}
+ 
+.selected .color::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    content: "\f00c";
+    color: #ffffff;
+    font-size: 28px;
+    position: absolute;
+    transform: 50;
+    top: 50%, left: 50%,;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.register, .login {
+    border: 0;
+    color: #fff;
+    font-size: 14px;
+    margin-right: 20px;
+}
+.custom-brand {
+    color: #fff;
+    font-weight: 900;
+    font-size: 24px;
+}
+.register:hover, .login:hover, .register:active, .login:active, .register:focus, .login:focus {
+    color: #fff !important;
+    background-color: #3e82ff !important;
+    border-color: #3e82ff !important;
+    box-shadow: none !important;
+}
+.solid .custom-brand, .solid .register, .solid .login  {
+    color: #3e82ff;
+  }
+  .solid .register:hover, .solid .login:hover {
+    color: #fff; 
+}
+.slider-data {
+    padding-bottom: 80px;
+}
+
+.bg-grey{
+    background: #f5f6fa;
+}
+.bg-grey .fixed-top {
+    position: static;
+}
+.mt-30{
+    margin-top: 30px !important;
+}
+.almost-done, .wat-t0-know {
+    border: solid 1px #e5e9f4;
+    background: #fff;
+    padding: 30px;
+}
+
+
+
+fieldset {
+    margin: 0 0 3rem;
+    padding: 0;
+    border: none;
+  }
+  
+  .form-radio,
+  .form-group {
+    position: relative;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .form-inline > .form-group,
+  .form-inline > .btn {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+  
+  .form-help {
+    margin-top: 0.125rem;
+    margin-left: 0.125rem;
+    color: #b3b3b3;
+    font-size: 0.8rem;
+  }
+  .checkbox .form-help, .form-radio .form-help, .form-group .form-help {
+    position: absolute;
+    width: 100%;
+  }
+  .checkbox .form-help {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .form-radio .form-help {
+    padding-top: 0.25rem;
+    margin-top: -1rem;
+  }
+  
+  .form-group input {
+    height: 1.9rem;
+  }
+  .form-group textarea {
+    resize: none;
+  }
+  .form-group select {
+    width: 100%;
+    font-size: 1rem;
+    height: 1.6rem;
+    padding: 0.125rem 0.125rem 0.0625rem;
+    background: none;
+    border: none;
+    line-height: 1.6;
+    box-shadow: none;
+  }
+  .form-group .control-label {
+    position: absolute;
+    top: 0.25rem;
+    pointer-events: none;
+    padding-left: 0.125rem;
+    z-index: 1;
+    color: #000000;
+    font-size: .9rem;
+    font-weight: normal;
+    -webkit-transition: all 0.28s ease;
+    transition: all 0.28s ease;
+  }
+  .form-group .bar {
+    position: relative;
+    border-bottom: 0.0625rem solid #999;
+    display: block;
+  }
+  .form-group .bar::before {
+    content: '';
+    height: 0.125rem;
+    width: 0;
+    left: 50%;
+    bottom: -0.0625rem;
+    position: absolute;
+    background: #337ab7;
+    -webkit-transition: left 0.28s ease, width 0.28s ease;
+    transition: left 0.28s ease, width 0.28s ease;
+    z-index: 2;
+  }
+  .form-group input,
+  .form-group textarea {
+    display: block;
+    background: none;
+    padding: 0.125rem 0.125rem 0.0625rem;
+    font-size: 1rem;
+    border-width: 0;
+    border-color: transparent;
+    line-height: 1.9;
+    width: 100%;
+    color: transparent;
+    -webkit-transition: all 0.28s ease;
+    transition: all 0.28s ease;
+    box-shadow: none;
+  }
+  .form-group input[type="file"] {
+    line-height: 1;
+  }
+  .form-group input[type="file"] ~ .bar {
+    display: none;
+  }
+  .form-group select,
+  .form-group input:focus,
+  .form-group input:valid,
+  .form-group input.form-file,
+  .form-group input.has-value,
+  .form-group textarea:focus,
+  .form-group textarea:valid,
+  .form-group textarea.form-file,
+  .form-group textarea.has-value {
+    color: #333;
+  }
+  .form-group select ~ .control-label,
+  .form-group input:focus ~ .control-label,
+  .form-group input:valid ~ .control-label,
+  .form-group input.form-file ~ .control-label,
+  .form-group input.has-value ~ .control-label,
+  .form-group textarea:focus ~ .control-label,
+  .form-group textarea:valid ~ .control-label,
+  .form-group textarea.form-file ~ .control-label,
+  .form-group textarea.has-value ~ .control-label {
+    font-size: 0.8rem;
+    color: gray;
+    top: -1rem;
+    left: 0;
+    padding-left: 18px;
+  }
+   .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+  }
+   .form-group input:focus ~ .control-label,
+  .form-group textarea:focus ~ .control-label {
+     color: #337ab7;
+   }
+   .form-group input:focus ~ .bar::before,
+  .form-group textarea:focus ~ .bar::before {
+    width: 100%;
+    left: 0;
+  }
+   
+  .has-error .legend.legend, .has-error.form-group .control-label.control-label {
+    color: #d9534f;
+  }
+  .has-error.form-group .form-help,
+  .has-error.form-group .helper, .has-error.checkbox .form-help,
+  .has-error.checkbox .helper, .has-error.radio .form-help,
+  .has-error.radio .helper, .has-error.form-radio .form-help,
+  .has-error.form-radio .helper {
+    color: #d9534f;
+  }
+  .has-error .bar::before {
+    background: #d9534f;
+    left: 0;
+    width: 100%;
+  }
+  
+  .button {
+   
+     -webkit-transition: background-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+    transition: background-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+    overflow: hidden;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+  .button span {
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+  .button::before {
+    content: '';
+    position: absolute;
+    background: #071017;
+    border: 50vh solid #1d4567;
+    width: 30vh;
+    height: 30vh;
+    border-radius: 50%;
+    display: block;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    opacity: 1;
+    -webkit-transform: translate(-50%, -50%) scale(0);
+            transform: translate(-50%, -50%) scale(0);
+  }
+  .button:hover {
+    color: #337ab7;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2);
+  }
+  .button:active::before, .button:focus::before {
+    -webkit-transition: opacity 0.28s ease 0.364s, -webkit-transform 1.12s ease;
+    transition: opacity 0.28s ease 0.364s, -webkit-transform 1.12s ease;
+    transition: transform 1.12s ease, opacity 0.28s ease 0.364s;
+    transition: transform 1.12s ease, opacity 0.28s ease 0.364s, -webkit-transform 1.12s ease;
+    -webkit-transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+  .button:focus {
+    outline: none;
+  }
+  .almost-done form h4, .button-container button span {
+    font-size: 14px;
+}
+.almost-done form h4 span{
+color: #3e82ff
+}
+.button-container button {
+    padding: 10px 30px;
+    border-radius: 4px;
+}
+h3.block-title {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    padding-right: 40px;
+}
+p.knowmore-text {
+    font-size: 13px;
+    color: #505460;
+}
+p.knowmore-text {
+    font-size: 13px;
+    color: #505460;
+}
+
+.bg-grey .custom-brand {
+    color: #000;
+}
+
+.bg-grey .register, .bg-grey .login{
+    color: #000;
+}
+ul.data-inputs {
+    padding: 0px;
+    list-style: none;
+}
+
+ul.data-inputs li {
+    display: inline-block;
+}
+
+input[type="text"] {
+    border: none;
+    background-color: #fff;
+    width: 130px;
+    font-size: 14px;
+}
+.thumbnail-row .img-thumbnail {
+    border: 0;
+}
+.thumbnail-row {
+    margin-bottom: 30px;
+}
+h2.hub {
+    font-size: 20px;
+    font-weight: bold;
+    color: #3e82ff;
+    margin-top: 10px;
 }
 @media only screen and (max-width: 767px)
 {
+         .dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::before{
+        content: '';
+    }  
+    .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container div{
+        margin: 10px 10px;
+    }
+    .dtp-picker .dtp-picker-form.otkit .dtp-picker-selectors-container {
+        flex-direction: column;
+    }
+    .dtp-picker-selector {
+        width: 100%;
+    }
     .dtp-picker .dtp-picker-form.otkit .dtp-picker-search-container { 
 margin: 10px 0px;
     }
@@ -330,4 +813,8 @@ margin: 10px 0px;
     font-size: 12px;
    margin-top: 5px;
 }
+}
+
+.custom-brand img {
+    max-width: 80px;
 }

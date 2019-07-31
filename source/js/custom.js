@@ -19,8 +19,11 @@ function changeSelectedTime() {
     $('.selected-time').text(TimeSlotOptions[selectedTime]);
 }
 
+/**
+ * DatePicker Script
+ */
 $(function() {
-    $( "#datepicker" ).datepicker({
+    $("#datepicker").datepicker({
       showOtherMonths: true,
       selectOtherMonths: true,
       dateFormat: "D, d M, yy",
@@ -38,7 +41,7 @@ function changeTimeSlotOptions(dateText) {
 
     // Hide the Time SLots which are already booked
     $.ajax({
-        url: BasePath+'hub_booking_list.php',
+        url: BasePath+'api/hub-booking-list.php',
         type: 'post',
         dataType: 'json',
         data: {booking_date: dateText},
@@ -94,12 +97,17 @@ $('.slider').slick({
 });
 
 $('input:checkbox').change(function(){
-    if($(this).is(':checked'))
-       $(this).parent().addClass('selected');
-    else
-       $(this).parent().removeClass('selected');
+  if ($(this).is(':checked')) {
+    $(this).parent().addClass('selected');
+	}
+  else {
+		$(this).parent().removeClass('selected');
+	}
 });
 
+/**
+ * First Form form Submit
+ */
 $("#hub-booking-step-1").submit(function(event) {
     var ReverseTimeSlots = [];
     $.each($('#time-slot-select option'), function() {
@@ -126,13 +134,6 @@ $("#hub-booking-step-1").submit(function(event) {
     localStorage.setItem('selectedTime', selectedTime);
     localStorage.setItem('selectedEquipments', selectedEquipments);
 });
-
-function backToHomePage() {
-    localStorage.setItem('selectedPerson', '');
-    localStorage.setItem('selectedTimeInGMT', '');
-    localStorage.setItem('selectedDate', '');
-    localStorage.setItem('selectedEquipments', '');
-}
 
 // Code for timer start of 5 minutes
 function startTimer() {
@@ -161,21 +162,90 @@ function checkSecond(sec) {
   return sec;
 }
 
+/**
+ * Booking form Submit
+ */
 $("#hub-booking-step-2").submit(function(event) {
-    var selectedDate = localStorage.getItem('selectedDate');
-    var selectedTimeInGMT = localStorage.getItem('selectedTimeInGMT');
-    var selectedPerson = localStorage.getItem('selectedPerson');
-    var selectedEquipments = localStorage.getItem('selectedEquipments');
-    var firstName = $('#first-name').val();
-    var lastName = $('#last-name').val();
+    var firstname = $('#first-name').val();
+    var lastname = $('#last-name').val();
     var email = $('#email').val();
-    var Purpose = $('#purpose').val();
+    var PhoneNumber = $('#phone-number').val();
+		var UserID = $('#user-id').val();
+
+		// Create A New User
+		if (UserID == 0) {
+			$.ajax({
+				url: BasePath+'api/create-new-user.php',
+				type: 'post',
+				dataType: 'json',
+				data: {firstname: firstname, lastname: lastname, email: email, phone_number: PhoneNumber},
+				success: function(data) {
+
+					// If User Account is created successfully create a new Booking Entry
+					if (data.success == 1) {
+						createHubBookingEntry(data.user_id);
+					}
+				}
+			});
+		}
+		else {
+			createHubBookingEntry(UserID);
+		}
+		event.preventDefault();
+});
+
+function createHubBookingEntry(UserID) {
+	var selectedDate = localStorage.getItem('selectedDate');
+	var selectedTimeInGMT = localStorage.getItem('selectedTimeInGMT');
+	var selectedPerson = localStorage.getItem('selectedPerson');
+	var selectedEquipments = localStorage.getItem('selectedEquipments');
+	var Purpose = $('#purpose').val();
+	if (UserID == '') {
+		UserID = $('#user-id').val();
+	}
+	var json_data = {date: selectedDate, eqiupment_ids: selectedEquipments, time_in_gmt: selectedTimeInGMT, user_id: UserID, purpose: Purpose, persons: selectedPerson};
+	$.ajax({
+		url: BasePath+'api/create-hub-booking-entry.php',
+		type: 'post',
+		dataType: 'json',
+		data: json_data,
+		success: function(data) {
+			console.log(data);
+			alert(data.msg);
+
+			// Clear the Local Storage Item which are set on Step 1
+			localStorage.setItem('selectedPerson', '');
+			localStorage.setItem('selectedTimeInGMT', '');
+			localStorage.setItem('selectedDate', '');
+			localStorage.setItem('selectedTime', '');
+			localStorage.setItem('selectedEquipments', '');
+		}
+	});
+}
+
+// Checkbox of Equipment Selected
+$('input:checkbox').change(function(){
+	if($(this).is(':checked')) {
+		$(this).parent().addClass('selected');
+	}
+ 	else {
+	  $(this).parent().removeClass('selected')
+ 	}
+});
 
 
-    // Clear the Local Storage Item which are set on Step 1
-    localStorage.setItem('selectedPerson', '');
-    localStorage.setItem('selectedTimeInGMT', '');
-    localStorage.setItem('selectedDate', '');
-    localStorage.setItem('selectedTime', '');
-    localStorage.setItem('selectedEquipments', '');
+// For Transition
+$(document).ready(function() {
+
+	// Transition effect for navbar
+	$(window).scroll(function() {
+
+		// checks if window is scrolled more than 500px, adds/removes solid class
+		if($(this).scrollTop() > 50) {
+			$('.navbar').addClass('solid');
+		}
+		else {
+			$('.navbar').removeClass('solid');
+		}
+	});
 });
