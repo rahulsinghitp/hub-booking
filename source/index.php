@@ -86,6 +86,17 @@
 										?>
 										</select>
 									</div>
+									<div class="selected-equipments" style="display:none">
+									<?php
+										$equipments = get_equipment_list($conn);
+										foreach ($equipments as $equipment) {
+											$equipment_desc = !empty($equipment['equipment_name']) ? $equipment['equipment_name'] : '';
+											$id = $equipment['equipment_id'];
+											$checkbox_id = "r{$id}";
+											print	'<input type="checkbox" name="equipment-' . $id . '" value="' . $id . '" id="equipment-' . $id . '" />';
+										}
+									?>
+									</div>
 								</div>
 								<input type="submit" value=" " class="button dtp-picker-button">
 							</form>
@@ -100,7 +111,6 @@
 					<div class="col-md-12">
 						<div class="slider">
 						<?php
-							$equipments = get_equipment_list($conn);
 							foreach ($equipments as $equipment) {
 								$equipment_desc = !empty($equipment['equipment_name']) ? $equipment['equipment_name'] : '';
 								$id = $equipment['equipment_id'];

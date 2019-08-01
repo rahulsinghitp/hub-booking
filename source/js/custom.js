@@ -100,15 +100,6 @@ $('.slider').slick({
   ]
 });
 
-$('input:checkbox').change(function(){
-  if ($(this).is(':checked')) {
-    $(this).parent().addClass('selected');
-	}
-  else {
-		$(this).parent().removeClass('selected');
-	}
-});
-
 /**
  * First Form form Submit
  */
@@ -142,13 +133,6 @@ $("#hub-booking-step-1").submit(function(event) {
 		if (stopForm == true) {
 			event.preventDefault();
 		}
-		else {
-			localStorage.setItem('selectedPerson', selectedPerson);
-			localStorage.setItem('selectedTimeInGMT', SelectedTimeInGMT);
-			localStorage.setItem('selectedDate', selectedDate);
-			localStorage.setItem('selectedTime', selectedTime);
-			localStorage.setItem('selectedEquipments', selectedEquipments);
-		}
 });
 
 /**
@@ -177,9 +161,6 @@ function startTimer() {
 			$('#book-the-hub').hide();
 		}
 	}
-  $('.selected-date').val(localStorage.getItem('selectedDate'));
-  $('.selected-person').val(localStorage.getItem('selectedPerson'));
-  $('.selected-time').val(localStorage.getItem('selectedTime'));
 }
 
 function checkSecond(sec) {
@@ -191,6 +172,7 @@ function checkSecond(sec) {
 /**
  * Booking form Submit
  */
+/**
 $("#hub-booking-step-2").submit(function(event) {
     var firstname = $('#first-name').val();
     var lastname = $('#last-name').val();
@@ -221,7 +203,7 @@ $("#hub-booking-step-2").submit(function(event) {
 
 /**
  * Create Hub Booking Entry
- */
+ *//**
 function createHubBookingEntry(UserID) {
 	var selectedDate = localStorage.getItem('selectedDate');
 	var selectedTimeInGMT = localStorage.getItem('selectedTimeInGMT');
@@ -238,25 +220,23 @@ function createHubBookingEntry(UserID) {
 		dataType: 'json',
 		data: json_data,
 		success: function(data) {
-			/**
-			// Clear the Local Storage Item which are set on Step 1
-			localStorage.setItem('selectedPerson', '');
-			localStorage.setItem('selectedTimeInGMT', '');
-			localStorage.setItem('selectedDate', '');
-			localStorage.setItem('selectedTime', '');
-			localStorage.setItem('selectedEquipments', '');
-			 */
 		}
 	});
 }
+ */
 
 // Checkbox of Equipment Selected
 $('input:checkbox').change(function(){
+	var checkBoxValue = $(this).val();
+
 	if($(this).is(':checked')) {
+
 		$(this).parent().addClass('selected');
+		$('#equipment-'+checkBoxValue).prop('checked', true);
 	}
  	else {
-	  $(this).parent().removeClass('selected')
+		$(this).parent().removeClass('selected');
+		$('#equipment-'+checkBoxValue).prop('checked', false);
  	}
 });
 
@@ -285,4 +265,11 @@ $('.slickslider-hero').slick({
 
 $(".dtp-picker-selector").hover(function(){
 	$(this).toggleClass("clicked");
+});
+
+/**
+ * For Number input
+ */
+$('#phone-number').keyup(function () {
+	this.value = this.value.replace(/[^0-9\.]/g,'');
 });

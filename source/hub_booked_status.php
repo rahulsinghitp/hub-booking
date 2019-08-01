@@ -2,9 +2,34 @@
 	session_start();
 	require_once('connect.php');
 	$readonly = '';
+	$class = 'success';
+	$msg = '';
+	$availiable_timeslots = get_availiable_time_slots();
+	$is_hub_booked = true;
 	if (!empty($_SESSION['user_id'])) {
 		$user_id = $_SESSION['user_id'];
 		$user_details = get_user_detail_by_email_id($conn, $user_id);
+	}
+	else {
+
+		// Create New User account
+		$params = $_POST;
+		$params['connect'] = $conn;
+		$user_account_details = create_new_user_account($params);
+		var_export($user_account_details);
+		$class = !empty($user_account_details['success']) ? 'success' : 'danger';
+		$msg = !empty($user_account_details['msg']) ? $user_account_details['msg'] : '';
+		$is_user_account_created = $user_account_details['success'];
+		$user_id = isset($user_account_details['user_id']) ? $user_account_details['user_id'] : '';
+	}
+
+	// If User ID exists make the entry of Hub booking
+	if (!empty($user_id)) {
+		$params['user_id'] = $user_id;
+		$hub_booking_details = create_hub_booking_entry($params);
+		$class = !empty($hub_booking_details['success']) ? 'success' : 'danger';
+		$is_hub_booked = $hub_booking_details['success'];
+		$msg = !empty($hub_booking_details['msg']) ? $hub_booking_details['msg'] : '';
 	}
 ?>
 <!doctype html>
@@ -50,7 +75,7 @@
 			<div class="container">
 				<div class="row booked-status">
 					<div class="col-12 col-md-8 field-area">
-						Thanks, <?php print $_POST['first-name']; ?> ! Your Hub is Booked for below Details
+						<div class="alert alert-<?php print $class; ?>"><?php print $msg; ?></div>
 					</div>
 				</div>
 				<div class="row">
@@ -63,17 +88,18 @@
 								<div class="col-10">
 									<h2 class="hub">The Hub</h2>
 									<ul class="data-inputs">
-								  	<li>
-											<i class="fas fa-calendar-week"></i>
-											<span><input class="selected-date" type="text" name="date" disabled></span>
-											<span><input class="selected-time" type="text" name="time" disabled></span>
-										</li>
-										<li>
-											<i class="fas fa-calendar-week"></i>
-											<span><input class="selected-person" type="text" name="person" value="" disabled></span> Person
-										</li>
-										<li>
-										</li>
+									<li>
+                      <i class="fas fa-calendar-week"></i>
+                      <span><?php print $_POST['date']; ?></span>
+                    </li>
+                    <li>
+                      <i class="far fa-clock"></i>
+                      <span><?php print $availiable_timeslots[$_POST['time-in-gmt']]; ?></span>
+                    </li>
+                    <li>
+                      <i class="far fa-user"></i>
+                      <span><?php print $_POST['person']; ?> Person</span>
+                    </li>
 										<input id="user-id" type="hidden" value="<?php print !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0; ?>">
 									</ul>
 								</div>

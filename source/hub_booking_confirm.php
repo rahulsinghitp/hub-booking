@@ -14,7 +14,8 @@
 		// Redirect user to welcome page
 		header("location: index.php");
 	}
-	var_export($_POST);
+
+	$availiable_timeslots = get_availiable_time_slots();
 ?>
 <!doctype html>
 <html lang="en">
@@ -72,15 +73,15 @@
                   <ul class="data-inputs  ">
                     <li>
                       <i class="fas fa-calendar-week"></i>
-                      <span><input class="selected-date" type="text" name="date" value="" disabled></span>
+                      <span><?php print $_POST['date']; ?></span>
                     </li>
                     <li>
                       <i class="far fa-clock"></i>
-                      <span><input class="selected-time" type="text" name="time" value="" disabled></span>
+                      <span><?php print $availiable_timeslots[$_POST['time-slot-select']]; ?></span>
                     </li>
                     <li>
                       <i class="far fa-user"></i>
-                      <span><input class="selected-person" type="text" name="person" value="" disabled></span>
+                      <span><?php print $_POST['person-select']; ?> Person</span>
                     </li>
 									</ul>
                 </div>
@@ -88,9 +89,20 @@
 							<form id="hub-booking-step-2" method="post" class="dtp-picker-form otkit" action="hub_booked_status.php">
 								<h4>Fill up the <span class="blue">form</span> to book your slot</h4>
 								<div class="row">
-									<input type="hidden" name="date" value="<?php print $_POST['date']; ?>" disabled>
-									<input type="hidden" name="person" value="<?php print $_POST['person-select']; ?>" disabled>
-									<input type="hidden" name="time-in-gmt" value="<?php print $_POST['time-slot-select']; ?>" disabled>
+									<input id="selected-date" type="hidden" name="date" value="<?php print $_POST['date']; ?>">
+									<input id="selected-person" type="hidden" name="person" value="<?php print $_POST['person-select']; ?>">
+									<input id="selected-time-in-gmt" type="hidden" name="time-in-gmt" value="<?php print $_POST['time-slot-select']; ?>">
+									<?php
+										$selected_equipments = array();
+										foreach ($_POST as $key => $data) {
+											if (strpos($key, 'equipment') === false) {
+												continue;
+											}
+											$selected_equipments[$data] = $data;
+										}
+										$equipment_string = implode(',', $selected_equipments);
+									?>
+									<input id="selected-equipment" type="hidden" name="selected-equipment" value="<?php print $equipment_string; ?>">
 									<input id="userid" type="hidden" name="user-id" value="<?php print !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0; ?>">
 								</div>
 								<div class="row">

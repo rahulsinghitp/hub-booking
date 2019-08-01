@@ -24,7 +24,7 @@ if ($result) {
 	//	notification_email_for_new_account($params);
 	$data['success'] = 1;
 	$data['booking_id'] = mysqli_insert_id($conn);
-	$data['msg'] = 'Your Booking is confirmed';
+	$data['msg'] = 'Thanks ' . $params['first-name'] . ' ! Your Booking is confirmed';
 
 	// Redirect user to welcome page
 	//	header("location: index.php");

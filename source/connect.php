@@ -144,3 +144,124 @@ function is_username_exists($connect, $username) {
   $row = mysqli_fetch_array($result);
   return !empty($row['count']) ? true : false;
 }
+
+
+/**
+ * function to create a new user
+ */
+function create_new_user_account($params) {
+  $fname = $params['first-name'];
+  $lname = $params['last-name'];
+  $email = $params['email'];
+  $phone_number = $params['phone-number'];
+  $connect = $params['connect'];
+  $data = array();
+
+  // All required data are present or not
+  if (empty($fname) || empty($lname) || empty($email) || empty($phone_number)) {
+    $data = array(
+      'success' => false,
+      'msg' => 'Insufficient data',
+    );
+    return $data;
+  }
+
+  // Check useremail exists or not
+  $email_exists = is_useremail_exists($connect, $email);
+  if ($email_exists) {
+    $data = array(
+      'success' => false,
+      'msg' => 'Your account is already created by this email ! Please use your existing account to book the Hub',
+    );
+    return $data;
+  }
+
+  // Get unique username
+  $username = get_unique_username($connect, $fname, $lname, 0);
+  $pass = randomPassword();
+  $hash_password = md5($pass);
+  $params['username'] = $username;
+  $params['password'] = $pass;
+  $sql = "INSERT INTO `user` (`username`, `password`, `firstname`, `lastname`, `email`, `phone_number`) VALUES ('{$username}', '{$hash_password}', '{$fname}', '{$lname}', '{$email}', '{$phone_number}');";
+  $result = mysqli_query($connect, $sql);
+  if ($result) {
+    $data = array(
+      'success' => true,
+      'msg' => 'Your account is created successfully !',
+      'username' => $username,
+      'password' => $pass,
+      'user_id' => mysqli_insert_id($connect)
+    );
+  }
+  else {
+    $data = array(
+      'success' => false,
+      'msg' => 'Unable to create your account',
+    );
+  }
+
+  return $data;
+}
+
+/**
+ * Random Password Generator
+ */
+function randomPassword() {
+	$alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+  $pass = array(); //remember to declare $pass as an array
+  $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+  for ($i = 0; $i < 8; $i++) {
+  	$n = rand(0, $alphaLength);
+    $pass[] = $alphabet[$n];
+	}
+
+  return implode($pass); //turn the array into a string
+}
+
+
+/**
+ * Function to check username already exist or not in system
+ */
+function is_useremail_exists($connect, $email) {
+  $sql = "SELECT COUNT(*) AS count FROM user WHERE email='{$email}'";
+  $result = mysqli_query($connect, $sql);
+  $row = mysqli_fetch_array($result);
+  return !empty($row['count']) ? true : false;
+}
+
+/**
+ * Function to make an entry Hub Booking details
+ */
+function create_hub_booking_entry($params) {
+  $user_id = isset($params['user_id']) ? $params['user_id'] : '';
+  $date = !empty($params['date']) ? date('Y-m-d', strtotime($params['date'])) : '';
+  $gmt_time = !empty($params['time-in-gmt']) ? $params['time-in-gmt'] : '';
+  $equipment_ids = !empty($params['selected-equipment']) ? $params['selected-equipment'] : '';
+  $purpose = !empty($params['purpose']) ? $params['purpose'] : '';
+  $no_of_person = !empty($params['person']) ? $params['person'] : '';
+  $data = array();
+  $conn = $params['connect'];
+  if (empty($user_id) || empty($date) || empty($gmt_time)) {
+    $data = array(
+      'success' => 0,
+      'msg' => 'Insufficient data',
+    );
+
+    return $data;
+  }
+  $sql = "INSERT INTO `hub_booking` (`hub_booking_date`, `hub_booking_time`, `hub_booking_equipments`, `hub_booking_purpose`, `hub_booking_user_id`, `hub_booking_no_of_persons`) VALUES ('{$date}', '{$gmt_time}', '{$equipment_ids}', '{$purpose}', '{$user_id}', '{$no_of_person}');";
+  $result = mysqli_query($conn, $sql);
+  if ($result) {
+
+    //	notification_email_for_new_account($params);
+    $data['success'] = 1;
+    $data['booking_id'] = mysqli_insert_id($conn);
+    $data['msg'] = 'Your Booking is confirmed';
+  }
+  else {
+    $data['success'] = 0;
+    $data['msg'] = 'Sorry! Unable to book the HUB for you';
+  }
+
+  return $data;
+}
