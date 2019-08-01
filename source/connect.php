@@ -105,7 +105,7 @@ function get_last_hub_booking_id($conn) {
 /**
  * Get User details for email ID
  */
-function get_user_detail_by_email_id($conn, $user_id) {
+function get_user_detail_by_user_id($conn, $user_id) {
   $sql = "SELECT user_id, username, password, email, firstname, lastname, phone_number FROM user WHERE user_id='{$user_id}' LIMIT 0, 1";
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
@@ -249,6 +249,15 @@ function create_hub_booking_entry($params) {
 
     return $data;
   }
+  $is_hub_is_booked = is_hub_is_booked($conn, $date, $gmt_time);
+  if ($is_hub_is_booked) {
+    $data = array(
+      'success' => 0,
+      'msg' => 'The Hub is Already booked following details',
+    );
+
+    return $data;
+  }
   $sql = "INSERT INTO `hub_booking` (`hub_booking_date`, `hub_booking_time`, `hub_booking_equipments`, `hub_booking_purpose`, `hub_booking_user_id`, `hub_booking_no_of_persons`) VALUES ('{$date}', '{$gmt_time}', '{$equipment_ids}', '{$purpose}', '{$user_id}', '{$no_of_person}');";
   $result = mysqli_query($conn, $sql);
   if ($result) {
@@ -256,7 +265,7 @@ function create_hub_booking_entry($params) {
     //	notification_email_for_new_account($params);
     $data['success'] = 1;
     $data['booking_id'] = mysqli_insert_id($conn);
-    $data['msg'] = 'Your Booking is confirmed';
+    $data['msg'] = 'Thanks ' . $params['first-name'] . ' ! Your Booking is confirmed';
   }
   else {
     $data['success'] = 0;
@@ -264,4 +273,14 @@ function create_hub_booking_entry($params) {
   }
 
   return $data;
+}
+
+/**
+ * Function to check username already exist or not in system
+ */
+function is_hub_is_booked($connect, $date, $time) {
+  $sql = "SELECT COUNT(*) AS count FROM hub_booking WHERE hub_booking_date='{$date}' AND hub_booking_time='{$time}'";
+  $result = mysqli_query($connect, $sql);
+  $row = mysqli_fetch_array($result);
+  return !empty($row['count']) ? true : false;
 }

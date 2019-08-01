@@ -6,20 +6,29 @@
 	$msg = '';
 	$availiable_timeslots = get_availiable_time_slots();
 	$is_hub_booked = true;
+
+	// Create New User account
+	$params = $_POST;
+	$params['connect'] = $conn;
 	if (!empty($_SESSION['user_id'])) {
 		$user_id = $_SESSION['user_id'];
-		$user_details = get_user_detail_by_email_id($conn, $user_id);
+		$user_details = get_user_detail_by_user_id($conn, $user_id);
 	}
 	else {
 
-		// Create New User account
-		$params = $_POST;
-		$params['connect'] = $conn;
 		$user_account_details = create_new_user_account($params);
 		var_export($user_account_details);
 		$class = !empty($user_account_details['success']) ? 'success' : 'danger';
 		$msg = !empty($user_account_details['msg']) ? $user_account_details['msg'] : '';
 		$is_user_account_created = $user_account_details['success'];
+		if ($is_user_account_created) {
+			session_start();
+
+			// Store data in session variables
+      $_SESSION["loggedin"] = true;
+      $_SESSION["user_id"] = $user_account_details['user_id'];
+      $_SESSION["username"] = $user_account_details['username'];
+		}
 		$user_id = isset($user_account_details['user_id']) ? $user_account_details['user_id'] : '';
 	}
 
@@ -30,6 +39,8 @@
 		$class = !empty($hub_booking_details['success']) ? 'success' : 'danger';
 		$is_hub_booked = $hub_booking_details['success'];
 		$msg = !empty($hub_booking_details['msg']) ? $hub_booking_details['msg'] : '';
+		$eqiupment_list = get_equipment_list($conn);
+		$selected_equipment_ids = !empty($_POST['selected-eqipment']) ? explode(',', $_POST['selected-eqipment']) : array();
 	}
 ?>
 <!doctype html>
@@ -110,12 +121,27 @@
 					</div>
 					<div class="col-12 col-md-4 know-more">
 						<div class="wat-t0-know">
-							<h3 class="block-title">The Hub Guidelines</h3>
-							<ol class="knowmore-text">
+							<h3 class="block-title">
+								<?php
+									if(!empty($_SESSION['user_id'])) {
+										$user_details = get_user_detail_by_user_id($conn, $_SESSION['user_id']);
+										print '<span class="username-initials">' . ucfirst(substr($user_details['firstname'], 0, 1)) . '' . ucfirst(substr($user_details['lastname'], 0, 1)) . '</span>';
+										print $user_details['firstname'] . ' ' . $user_details['lastname'];
+									}
+								?>
+							</h3>
+							<?php
+							  if ($is_user_account_created) {
+									print 'Login Credetials: ';
+									print '<div> Username: ' . $user_account_details['username'] . '</div>';
+									print '<div> Password: ' . $user_account_details['password'] . '</div>';
+								}
+							?>
+							<ul class="knowmore-text">
 								<li>AAA</li>
 								<li>AAA</li>
 								<li>AAA</li>
-							</ol>
+							</ul>
 						</div>
 					</div>
 				</div>

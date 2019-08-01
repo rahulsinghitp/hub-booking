@@ -4,7 +4,7 @@
 	$readonly = '';
 	if (!empty($_SESSION['user_id'])) {
 		$user_id = $_SESSION['user_id'];
-		$user_details = get_user_detail_by_email_id($conn, $user_id);
+		$user_details = get_user_detail_by_user_id($conn, $user_id);
 		$readonly = 'readonly';
 	}
 
