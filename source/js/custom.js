@@ -216,3 +216,8 @@ $(".dtp-picker-selector").hover(function(){
 $('#phone-number').keyup(function () {
 	this.value = this.value.replace(/[^0-9\.]/g,'');
 });
+
+$(document).ready(function() {
+	var randomColor = '#'+ ('000000' + Math.floor(Math.random()*16777215).toString(16)).slice(-6);
+	$('.username-initials').css('background',randomColor);
+});

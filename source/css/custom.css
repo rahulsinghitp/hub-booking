@@ -799,6 +799,17 @@ ol.knowmore-text li {
 ol.knowmore-text {
     padding-left: 15px;
 }
+
+.button-container input {
+    padding: 10px 30px;
+    border-radius: 0;
+}
+.welcome-msg {
+    color: #fff;
+    background: #777777;
+    padding: 5px 15px;
+    margin-right: 10px;
+}
 @media only screen and (max-width: 767px)
 {
          .dtp-picker .dtp-picker-form.otkit .dtp-picker-selector.date-picker::before{

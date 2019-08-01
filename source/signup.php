@@ -15,10 +15,8 @@ if (!empty($_POST["fname"]) && !empty($_POST["lname"]) && !empty($_POST["pass1"]
   $pass = trim($_POST["pass1"]);
   $email = trim($_POST["uemail"]);
   $phone_number = trim($_POST['phone_number']);
-  $sql = "SELECT COUNT(*) AS count FROM user WHERE email='{$email}' LIMIT 0, 1";
-  $result = mysqli_query($conn, $sql);
-  $row = mysqli_fetch_array($result);
-  if (!empty($row['count'])) {
+  $email_exists = is_useremail_exists($conn, $email);
+  if (!empty($email_exists)) {
     $msg = "Email already exist";
     $msgType = "warning";
   }
@@ -101,7 +99,7 @@ if (!empty($_POST["fname"]) && !empty($_POST["lname"]) && !empty($_POST["pass1"]
                     <label for="input" class="control-label">Email</label><i class="bar"></i>
                   </div>
                   <div class="form-group col-6">
-                    <input type="textfield" required="required" id="phone_number" class="" name="phone_number">
+                    <input type="textfield" required="required" id="phone-number" class="" name="phone_number">
                     <label for="input" class="control-label">Phone Number</label><i class="bar"></i>
                   </div>
                 </div>

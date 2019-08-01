@@ -140,11 +140,11 @@
 					<div class="col-12 col-md-4 know-more">
 						<div class="wat-t0-know">
 							<h3 class="block-title">The Hub Guidelines</h3>
-							<ol class="knowmore-text">
+							<!--ol class="knowmore-text">
 								<li>AAA</li>
 								<li>AAA</li>
 								<li>AAA</li>
-							</ol>
+							</ol-->
 						</div>
 					</div>
 				</div>

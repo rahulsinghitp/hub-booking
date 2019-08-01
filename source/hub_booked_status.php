@@ -69,7 +69,7 @@
 					<?php
 						if (!empty($_SESSION['user_id'])) {
 							print '<div class="welcome-msg"> Welcome ' . $_SESSION['username'] . ' </div>';
-							print '<a href="' . BASE_URL . 'logout.php" class="btn btn-outline-success my-2 my-sm-0 logout">Logout</a>';
+							print '<a href="' . BASE_URL . 'logout.php" class="btn btn-outline-success my-2 my-sm-0 login">Logout</a>';
 						}
 						else {
 							print '<a href="' . BASE_URL . 'signup.php" class="btn btn-outline-success my-2 my-sm-0 register">Register</a>';
@@ -152,11 +152,11 @@
 									print '</div>';
 								}
 							?>
-							<ul class="knowmore-text">
+							<!--ul class="knowmore-text">
 								<li>AAA</li>
 								<li>AAA</li>
 								<li>AAA</li>
-							</ul>
+							</ul-->
 						</div>
 					</div>
 				</div>
