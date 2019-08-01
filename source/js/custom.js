@@ -169,62 +169,6 @@ function checkSecond(sec) {
   return sec;
 }
 
-/**
- * Booking form Submit
- */
-/**
-$("#hub-booking-step-2").submit(function(event) {
-    var firstname = $('#first-name').val();
-    var lastname = $('#last-name').val();
-    var email = $('#email').val();
-    var PhoneNumber = $('#phone-number').val();
-		var UserID = $('#user-id').val();
-
-		// Create A New User
-		if (UserID == 0) {
-			$.ajax({
-				url: BasePath+'api/create-new-user.php',
-				type: 'post',
-				dataType: 'json',
-				data: {firstname: firstname, lastname: lastname, email: email, phone_number: PhoneNumber},
-				success: function(data) {
-
-					// If User Account is created successfully create a new Booking Entry
-					if (data.success == 1) {
-						createHubBookingEntry(data.user_id);
-					}
-				}
-			});
-		}
-		else {
-			createHubBookingEntry(UserID);
-		}
-});
-
-/**
- * Create Hub Booking Entry
- *//**
-function createHubBookingEntry(UserID) {
-	var selectedDate = localStorage.getItem('selectedDate');
-	var selectedTimeInGMT = localStorage.getItem('selectedTimeInGMT');
-	var selectedPerson = localStorage.getItem('selectedPerson');
-	var selectedEquipments = localStorage.getItem('selectedEquipments');
-	var Purpose = $('#purpose').val();
-	if (UserID == '') {
-		UserID = $('#user-id').val();
-	}
-	var json_data = {date: selectedDate, eqiupment_ids: selectedEquipments, time_in_gmt: selectedTimeInGMT, user_id: UserID, purpose: Purpose, persons: selectedPerson};
-	$.ajax({
-		url: BasePath+'api/create-hub-booking-entry.php',
-		type: 'post',
-		dataType: 'json',
-		data: json_data,
-		success: function(data) {
-		}
-	});
-}
- */
-
 // Checkbox of Equipment Selected
 $('input:checkbox').change(function(){
 	var checkBoxValue = $(this).val();
@@ -239,7 +183,6 @@ $('input:checkbox').change(function(){
 		$('#equipment-'+checkBoxValue).prop('checked', false);
  	}
 });
-
 
 // For Transition
 $(document).ready(function() {

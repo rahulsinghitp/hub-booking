@@ -65,7 +65,6 @@
 								<h3 class="block-title">You are almost done!</h3>
 								<!--div>Time left = <span id="timer">5:00</span></div-->
 							</div>
-							<div class="booking-msg"></div>
 							<div class="thumbnail-row">
                 <div class="hub-image"><img src="img/book.svg" alt="..." class="img-thumbnail"></div>
 								<div class="hub-data">

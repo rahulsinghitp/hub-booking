@@ -17,12 +17,10 @@
 	else {
 
 		$user_account_details = create_new_user_account($params);
-		var_export($user_account_details);
 		$class = !empty($user_account_details['success']) ? 'success' : 'danger';
 		$msg = !empty($user_account_details['msg']) ? $user_account_details['msg'] : '';
 		$is_user_account_created = $user_account_details['success'];
 		if ($is_user_account_created) {
-			session_start();
 
 			// Store data in session variables
       $_SESSION["loggedin"] = true;
@@ -39,8 +37,8 @@
 		$class = !empty($hub_booking_details['success']) ? 'success' : 'danger';
 		$is_hub_booked = $hub_booking_details['success'];
 		$msg = !empty($hub_booking_details['msg']) ? $hub_booking_details['msg'] : '';
-		$eqiupment_list = get_equipment_list($conn);
-		$selected_equipment_ids = !empty($_POST['selected-eqipment']) ? explode(',', $_POST['selected-eqipment']) : array();
+		$equipment_list = get_equipment_list($conn);
+		$selected_equipment_ids = !empty($_POST['selected-equipment']) ? explode(',', $_POST['selected-equipment']) : array();
 	}
 ?>
 <!doctype html>
@@ -92,14 +90,12 @@
 				<div class="row">
 					<div class="col-12 col-md-8 field-area">
 						<div class="almost-done">
-							<div class="row thumbnail-row">
-								<div class="col-2">
-							  	<img src="img/book.svg" alt="..." class="img-thumbnail">
-								</div>
-								<div class="col-10">
-									<h2 class="hub">The Hub</h2>
-									<ul class="data-inputs">
-									<li>
+							<div class="thumbnail-row">
+                <div class="hub-image"><img src="img/book.svg" alt="..." class="img-thumbnail"></div>
+								<div class="hub-data">
+                  <h2 class="hub">Hub</h2>
+                  <ul class="data-inputs  ">
+										<li>
                       <i class="fas fa-calendar-week"></i>
                       <span><?php print $_POST['date']; ?></span>
                     </li>
@@ -111,12 +107,29 @@
                       <i class="far fa-user"></i>
                       <span><?php print $_POST['person']; ?> Person</span>
                     </li>
-										<input id="user-id" type="hidden" value="<?php print !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0; ?>">
 									</ul>
+                </div>
+              </div>
+							<?php if (!empty($selected_equipment_ids)) { ?>
+								<div class="row slider-option">
+									<div class="col-md-12">
+										<h3>Selected equipments for your visit</h3>
+									</div>
+									<div class="col-md-12">
+										<div class="slider">
+										<?php
+											foreach ($selected_equipment_ids as $id) {
+												$equipment_desc = !empty($equipment_list[$id]['equipment_name']) ? $equipment_list[$id]['equipment_name'] : '';
+												$checkbox_id = "r{$id}";
+												print '<div class="parent-slider"><label class="child-slide" for="' . $checkbox_id . '">';
+												print '<div class="color"><img src="./equipment_images/' . $equipment_list[$id]['equipment_image_name'] . '" /></div>';
+												print '<p class="slide-data">' . $equipment_desc . '</p></label></div>';
+											}
+										?>
+										</div>
+									</div>
 								</div>
-							</div>
-							</form>
-							<div class="new-user-details"></div>
+							<?php } ?>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 know-more">
@@ -131,10 +144,12 @@
 								?>
 							</h3>
 							<?php
-							  if ($is_user_account_created) {
+							  if (!empty($is_user_account_created)) {
+									print '<div class="alert alert-success">';
 									print 'Login Credetials: ';
 									print '<div> Username: ' . $user_account_details['username'] . '</div>';
 									print '<div> Password: ' . $user_account_details['password'] . '</div>';
+									print '</div>';
 								}
 							?>
 							<ul class="knowmore-text">
