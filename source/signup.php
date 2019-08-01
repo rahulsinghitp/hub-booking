@@ -87,31 +87,31 @@ if (!empty($_POST["fname"]) && !empty($_POST["lname"]) && !empty($_POST["pass1"]
               <form class="form-horizontal contactform" action="signup.php" method="post" name="f" onsubmit="return validateForm();">
                 <div class="row">
                   <div class="form-group col-6">
-                    <input type="textfield" required="required" id="fname" class="form-control" name="fname">
+                    <input type="textfield" required="required" id="fname" class="" name="fname">
                     <label for="input" class="control-label">First Name</label><i class="bar"></i>
                   </div>
                   <div class="form-group col-6">
-                    <input type="textfield" required="required" id="lname" class="form-control" name="lname">
+                    <input type="textfield" required="required" id="lname" class="" name="lname">
                     <label for="input" class="control-label">Last Name</label><i class="bar"></i>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-6">
-                    <input type="textfield" required="required" id="uemail" class="form-control" name="uemail">
+                    <input type="textfield" required="required" id="uemail" class="" name="uemail">
                     <label for="input" class="control-label">Email</label><i class="bar"></i>
                   </div>
                   <div class="form-group col-6">
-                    <input type="textfield" required="required" id="phone_number" class="form-control" name="phone_number">
+                    <input type="textfield" required="required" id="phone_number" class="" name="phone_number">
                     <label for="input" class="control-label">Phone Number</label><i class="bar"></i>
                   </div>
                 </div>
                 <div class="row">
                   <div class="form-group col-6">
-                    <input type="password" required="required" id="pass1" class="form-control" name="pass1">
+                    <input type="password" required="required" id="pass1" class="" name="pass1">
                     <label for="input" class="control-label">Password</label><i class="bar"></i>
                   </div>
                   <div class="form-group col-6">
-                    <input type="password" required="required" id="pass2" class="form-control" name="pass2">
+                    <input type="password" required="required" id="pass2" class="" name="pass2">
                     <label for="input" class="control-label">Confirm Password</label><i class="bar"></i>
                   </div>
                 </div>

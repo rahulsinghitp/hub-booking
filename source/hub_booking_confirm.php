@@ -7,6 +7,14 @@
 		$user_details = get_user_detail_by_email_id($conn, $user_id);
 		$readonly = 'readonly';
 	}
+
+	// If standard values are empty then return to index
+	if (empty($_POST['person-select']) || empty($_POST['date']) || empty($_POST['time-slot-select'])) {
+
+		// Redirect user to welcome page
+		header("location: index.php");
+	}
+	var_export($_POST);
 ?>
 <!doctype html>
 <html lang="en">
@@ -22,7 +30,7 @@
 		<link rel="stylesheet" type="text/css" href="css/slick.css"/>
 		<link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
 		<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css"/>
-		<title>HUB Booking Confirm !</title>
+		<title>Hub Booking Confirm !</title>
 	</head>
 	<body onload="startTimer()" class="bg-grey">
 		<nav class="navbar navbar-expand-lg   fixed-top">
@@ -36,7 +44,7 @@
 					<?php
 						if (!empty($_SESSION['user_id'])) {
 							print '<div class="welcome-msg"> Welcome ' . $_SESSION['username'] . ' </div>';
-							print '<a href="' . BASE_URL . 'logout.php" class="btn btn-outline-success my-2 my-sm-0 logout">Logout</a>';
+							print '<a href="' . BASE_URL . 'logout.php" class="btn btn-outline-success my-2 my-sm-0 login">Logout</a>';
 						}
 						else {
 							print '<a href="' . BASE_URL . 'signup.php" class="btn btn-outline-success my-2 my-sm-0 register">Register</a>';
@@ -52,33 +60,39 @@
 				<div class="row">
 					<div class="col-12 col-md-8 field-area">
 						<div class="almost-done">
-							<h3 class="block-title">You are almost done!</h3>
-							<div>Time left = <span id="timer">5:00</span></div>
-							<div class="row thumbnail-row">
-								<div class="col-2">
-							  	<img src="img/book.svg" alt="..." class="img-thumbnail">
-								</div>
-								<div class="col-10">
-									<h2 class="hub">The Hub</h2>
-									<ul class="data-inputs  ">
-								  	<li>
-											<i class="fas fa-calendar-week"></i>
-											<span><input class="selected-date" type="text" name="lname" value="" disabled></span>
-										</li>
-										<li>
-											<i class="fas fa-calendar-week"></i>
-											<span><input class="selected-person" type="text" name="lname" value="" disabled></span>
-										</li>
-										<li>
-											<i class="fas fa-calendar-week"></i>
-											<span><input class="selected-time" type="text" name="lname" value="" disabled></span>
-										</li>
-										<input id="user-id" type="hidden" value="<?php print !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0; ?>">
-									</ul>
-								</div>
+							<div class="timer-clock">
+								<h3 class="block-title">You are almost done!</h3>
+								<!--div>Time left = <span id="timer">5:00</span></div-->
 							</div>
-							<form id="hub-booking-step-2" class="dtp-picker-form otkit" action="hub_booking_confirm.php">
+							<div class="booking-msg"></div>
+							<div class="thumbnail-row">
+                <div class="hub-image"><img src="img/book.svg" alt="..." class="img-thumbnail"></div>
+								<div class="hub-data">
+                  <h2 class="hub">Hub</h2>
+                  <ul class="data-inputs  ">
+                    <li>
+                      <i class="fas fa-calendar-week"></i>
+                      <span><input class="selected-date" type="text" name="date" value="" disabled></span>
+                    </li>
+                    <li>
+                      <i class="far fa-clock"></i>
+                      <span><input class="selected-time" type="text" name="time" value="" disabled></span>
+                    </li>
+                    <li>
+                      <i class="far fa-user"></i>
+                      <span><input class="selected-person" type="text" name="person" value="" disabled></span>
+                    </li>
+									</ul>
+                </div>
+              </div>
+							<form id="hub-booking-step-2" method="post" class="dtp-picker-form otkit" action="hub_booked_status.php">
 								<h4>Fill up the <span class="blue">form</span> to book your slot</h4>
+								<div class="row">
+									<input type="hidden" name="date" value="<?php print $_POST['date']; ?>" disabled>
+									<input type="hidden" name="person" value="<?php print $_POST['person-select']; ?>" disabled>
+									<input type="hidden" name="time-in-gmt" value="<?php print $_POST['time-slot-select']; ?>" disabled>
+									<input id="userid" type="hidden" name="user-id" value="<?php print !empty($_SESSION['user_id']) ? $_SESSION['user_id'] : 0; ?>">
+								</div>
 								<div class="row">
 									<div class="form-group col-6 <?php print $readonly; ?>">
 										<input type="textfield" id="first-name" name="first-name" value="<?php print !empty($user_details['firstname']) ? $user_details['firstname'] : ''; ?>" required="required" <?php print $readonly; ?>/>
@@ -96,7 +110,7 @@
 									</div>
 									<div class="form-group col-6 <?php print $readonly; ?>">
 										<input type="email" id="email" name="email" value="<?php print !empty($user_details['email']) ? $user_details['email'] : ''; ?>" required="required" <?php print $readonly; ?>/>
-										<label for="input" class="control-label">Email ID</label><i class="bar"></i>
+										<label for="input" class="control-label">Email</label><i class="bar"></i>
 									</div>
 								</div>
 								<div class="row">
@@ -106,9 +120,10 @@
 									</div>
 								</div>
 								<div class="button-container">
-									<input type="submit" value=" Complete Reservation " class="button">
+									<input type="submit" name="submit" value=" Complete Reservation " class="button">
 								</div>
 							</form>
+							<div class="new-user-details"></div>
 						</div>
 					</div>
 					<div class="col-12 col-md-4 know-more">

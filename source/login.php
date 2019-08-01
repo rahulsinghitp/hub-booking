@@ -41,6 +41,7 @@
 		// Validate credentials
 		if (empty($username_err) && empty($password_err)) {
 			$hash_password = md5($trimmed_password);
+
 			// Prepare a select statement
 			$sql = "SELECT user_id, username, password, email FROM user WHERE username='{$trimmed_username}' AND password='{$hash_password}' LIMIT 0, 1";
 			$result = mysqli_query($conn, $sql);
@@ -101,12 +102,12 @@
 							<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 								<div class="row">
 									<div class="form-group col-12">
-										<input type="text" name="username" class="form-control" required="required" value="<?php echo $username; ?>">
+										<input type="textfield" name="username" class="" required="required" value="<?php echo $username; ?>">
 										<label for="input" class="control-label">Username</label><i class="bar"></i>
 										<span class="help-block"><?php echo $username_err; ?></span>
 									</div>
 									<div class="form-group col-12">
-										<input type="password" name="password" required="required" class="form-control">
+										<input type="password" name="password" required="required" class="">
 										<label for="input" class="control-label">Password</label><i class="bar"></i>
 										<span class="help-block"><?php echo $password_err; ?></span>
 									</div>

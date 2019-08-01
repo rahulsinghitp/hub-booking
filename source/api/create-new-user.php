@@ -29,12 +29,13 @@ $data = array();
 if ($result) {
 
 	//notification_email_for_new_account($params);
-	//session_start();
+	session_start();
 
 	// Store data in session variables
 	$_SESSION["loggedin"] = true;
 	$_SESSION["user_id"] = mysqli_insert_id($conn);
 	$_SESSION["username"] = $username;
+	$_SESSION["userpass"] = $userpass;
 	$data['success'] = 1;
 	$data['user_id'] = mysqli_insert_id($conn);
 	$data['username'] = $username;

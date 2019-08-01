@@ -5,7 +5,7 @@ define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_NAME', 'webapp');
-define('BASE_URL', 'http://localhost/hub-booking/source/');
+define('BASE_URL', 'http://192.168.0.81/hub-booking/source/');
 
 if (date_default_timezone_get() != 'Asia/Dubai') {
   date_default_timezone_set('Asia/Dubai');

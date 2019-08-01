@@ -1,5 +1,5 @@
 // Global Variable
-var BasePath = 'http://localhost/hub-booking/source/';
+var BasePath = 'http://192.168.0.81/hub-booking/source/';
 
 function changeSelectedPerson() {
     var selectedPerson = $('#person-select').val();
@@ -64,36 +64,40 @@ function changeTimeSlotOptions(dateText) {
 }
 
 $('.slider').slick({
-    dots: true,
-    infinite: false,
-    speed: 300,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                infinite: true,
-                dots: true
-            }
-        },
-        {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    ]
+  dots: true,
+  infinite: false,
+  arrows    : false,
+  speed: 300,
+  slidesToShow: 3,
+  slidesToScroll: 1,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
 });
 
 $('input:checkbox').change(function(){
@@ -120,37 +124,59 @@ $("#hub-booking-step-1").submit(function(event) {
     var SelectedTimeInGMT = ReverseTimeSlots[selectedTime];
     var selectedDate = $("#datepicker").val();
     var selectedPerson = $('.selected-person').html().replace(/[^\d.]/g, '' );
-    var selectedEquipments = [];
+		var selectedEquipments = [];
+		var stopForm = false;
     $.each($("input[name='rGroup']:checked"), function() {
-        selectedEquipments.push($(this).val());
-    });
-    if (!($.isNumeric(selectedPerson)) || SelectedTimeInGMT == 'undefined') {
-        event.preventDefault();
-    }
+				selectedEquipments.push($(this).val());
+		});
+    if (!($.isNumeric(selectedPerson))) {
+			alert('Please select the No. of Person');
+			stopForm = true;
+		}
 
-    localStorage.setItem('selectedPerson', selectedPerson);
-    localStorage.setItem('selectedTimeInGMT', SelectedTimeInGMT);
-    localStorage.setItem('selectedDate', selectedDate);
-    localStorage.setItem('selectedTime', selectedTime);
-    localStorage.setItem('selectedEquipments', selectedEquipments);
+		if (SelectedTimeInGMT == undefined) {
+			alert('Please select the Time Slot');
+			stopForm = true;
+		}
+
+		if (stopForm == true) {
+			event.preventDefault();
+		}
+		else {
+			localStorage.setItem('selectedPerson', selectedPerson);
+			localStorage.setItem('selectedTimeInGMT', SelectedTimeInGMT);
+			localStorage.setItem('selectedDate', selectedDate);
+			localStorage.setItem('selectedTime', selectedTime);
+			localStorage.setItem('selectedEquipments', selectedEquipments);
+		}
+});
+
+/**
+ * Prevent user to type in date field
+ */
+$('#datepicker').keydown(function(e) {
+	e.preventDefault();
+	return false;
 });
 
 // Code for timer start of 5 minutes
 function startTimer() {
-  var presentTime = $('#timer').html();
-  var timeArray = presentTime.split(/[:]+/);
-  var m = timeArray[0];
-  var s = checkSecond((timeArray[1] - 1));
-  if (s == 59) {
-    m = m-1;
-  }
-  $('#timer').html(m + ":" + s);
-  if (m != 0 || s != 0) {
-    setTimeout(startTimer, 1000);
-  }
-  else {
-    $('#book-the-hub').hide();
-  }
+	if ($('#time').length > 0) {
+		var presentTime = $('#timer').html();
+		var timeArray = presentTime.split(/[:]+/);
+		var m = timeArray[0];
+		var s = checkSecond((timeArray[1] - 1));
+		if (s == 59) {
+			m = m-1;
+		}
+		$('#timer').html(m + ":" + s);
+		if (m != 0 || s != 0) {
+			setTimeout(startTimer, 1000);
+		}
+		else {
+			$('#book-the-hub').hide();
+		}
+	}
   $('.selected-date').val(localStorage.getItem('selectedDate'));
   $('.selected-person').val(localStorage.getItem('selectedPerson'));
   $('.selected-time').val(localStorage.getItem('selectedTime'));
@@ -191,9 +217,11 @@ $("#hub-booking-step-2").submit(function(event) {
 		else {
 			createHubBookingEntry(UserID);
 		}
-		event.preventDefault();
 });
 
+/**
+ * Create Hub Booking Entry
+ */
 function createHubBookingEntry(UserID) {
 	var selectedDate = localStorage.getItem('selectedDate');
 	var selectedTimeInGMT = localStorage.getItem('selectedTimeInGMT');
@@ -210,15 +238,14 @@ function createHubBookingEntry(UserID) {
 		dataType: 'json',
 		data: json_data,
 		success: function(data) {
-			console.log(data);
-			alert(data.msg);
-
+			/**
 			// Clear the Local Storage Item which are set on Step 1
 			localStorage.setItem('selectedPerson', '');
 			localStorage.setItem('selectedTimeInGMT', '');
 			localStorage.setItem('selectedDate', '');
 			localStorage.setItem('selectedTime', '');
 			localStorage.setItem('selectedEquipments', '');
+			 */
 		}
 	});
 }
@@ -248,4 +275,14 @@ $(document).ready(function() {
 			$('.navbar').removeClass('solid');
 		}
 	});
+});
+
+$('.slickslider-hero').slick({
+  dots: false,
+	arrows: false,
+	autoplay: true,
+ });
+
+$(".dtp-picker-selector").hover(function(){
+	$(this).toggleClass("clicked");
 });
