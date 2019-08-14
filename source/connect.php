@@ -1,11 +1,13 @@
 <?php
 
 // db credentials
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'webapp');
-define('BASE_URL', 'http://192.168.0.81/hub-booking/source/');
+define('DB_HOST', 'devdbinstance.calyg1rozmsi.us-west-2.rds.amazonaws.com');
+define('DB_USER', 'drupaldev');
+define('DB_PASS', '88888888');
+define('DB_NAME', 'hubs_itp_com');
+define('BASE_URL', 'http://devhubs.itp.com/');
+define('HUB_ADMIN_EMAIL', 'hubs.admin@itp.com');
+
 
 if (date_default_timezone_get() != 'Asia/Dubai') {
   date_default_timezone_set('Asia/Dubai');
@@ -48,8 +50,8 @@ function get_equipment_list($conn) {
  */
 function get_availiable_time_slots() {
   $duration = 60;  // split by 60 mins
-  $start_time = strtotime('00.00');
-  $end_time = strtotime('23:00');
+  $start_time = strtotime('11.00');
+  $end_time = strtotime('17:00');
   $add_mins  = $duration * 60;
   $time_slots = array();
   while ($start_time <= $end_time) {
@@ -182,9 +184,26 @@ function create_new_user_account($params) {
   $hash_password = md5($pass);
   $params['username'] = $username;
   $params['password'] = $pass;
-  $sql = "INSERT INTO `user` (`username`, `password`, `firstname`, `lastname`, `email`, `phone_number`) VALUES ('{$username}', '{$hash_password}', '{$fname}', '{$lname}', '{$email}', '{$phone_number}');";
+  $isActive = 1;
+  $activationcode = md5($email . time());
+  $sql = "INSERT INTO `user` (`username`, `password`, `firstname`, `lastname`, `email`, `phone_number`, `is_active`, `hash`) VALUES ('{$username}', '{$hash_password}', '{$fname}', '{$lname}', '{$email}', '{$phone_number}', '{$isActive}', '{$activationcode}');";
   $result = mysqli_query($connect, $sql);
   if ($result) {
+    $message = "<div style='padding-top:10px;'>Your account is successfully created on Hub</div>
+    <div style='padding-top:10px;'>Please use below credentials to login<br>Username : {$username}<br>Password : {$pass}</div>
+    <div style='padding-top:4px;'>Powered by <a href='http://hubs.itp.com'>ITP HUB</a></div>";
+    $email_params = array(
+      'name' => $fname . ' ' . $lname,
+      'username' => $username,
+      'password' => $pass,
+      'email' => $email,
+      'fname' => $fname,
+      'lname' => $lname,
+      'subject' => 'Your Hub account details',
+      'message' => $message,
+    );
+    send_email_for_account_activation($email_params);
+
     $data = array(
       'success' => true,
       'msg' => 'Your account is created successfully !',
@@ -253,7 +272,7 @@ function create_hub_booking_entry($params) {
   if ($is_hub_is_booked) {
     $data = array(
       'success' => 0,
-      'msg' => 'The Hub is Already booked following details',
+      'msg' => 'The Hub is already booked following details',
     );
 
     return $data;
@@ -262,10 +281,11 @@ function create_hub_booking_entry($params) {
   $result = mysqli_query($conn, $sql);
   if ($result) {
 
-    //	notification_email_for_new_account($params);
+    // send email about the Hub booking confirmation
+    send_email_about_hub_booking_confirmation($params);
     $data['success'] = 1;
     $data['booking_id'] = mysqli_insert_id($conn);
-    $data['msg'] = 'Thanks ' . $params['first-name'] . ' ! Your Booking is confirmed';
+    $data['msg'] = 'Thanks ' . $params['first-name'] . '! Your booking is confirmed';
   }
   else {
     $data['success'] = 0;
@@ -284,3 +304,59 @@ function is_hub_is_booked($connect, $date, $time) {
   $row = mysqli_fetch_array($result);
   return !empty($row['count']) ? true : false;
 }
+
+/**
+ * Function to send email about User account activation
+ */
+function send_email_for_account_activation($params) {
+  $to = $params['email'];
+  $username = $params['username'];
+  $pass = $params['password'];
+  $fname = $params['fname'];
+  $lname = $params['lname'];
+  $subject = !empty($params['subject']) ? $params['subject'] : "ITP HUB Email verification";
+  $headers .= "MIME-Version: 1.0"."\r\n";
+  $headers .= 'Content-type: text/html; charset=iso-8859-1'."\r\n";
+  $headers .= 'From:ITP HUB <info@itphub.com>'."\r\n";
+  $headers .= 'Cc: ' . HUB_ADMIN_EMAIL . '\r\n';
+  $message = file_get_contents('./html/new-signup-email.html', true);
+  $activation_text = !empty($params['activation_url']) ?
+  "Please click the following link for verifying and activation of your account:<br><a href='{$params['activation_url']}'><button type='button'>Verify Your Email</button></a>" : 'Your account is successfully created on Hub';
+  $ms = str_replace(array('[user_full_name]', '[username]', '[password]', '[account_activation_link]'), array($fname . ' ' . $lname, $username, $pass, $activation_text), $message);
+  $status = '';
+  try {
+    $status = mail($to, $subject, $ms, $headers);
+  }
+  catch(Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+  }
+
+  return $status;
+}
+
+/**
+ * Send email About Hub booking Confirmation status
+ */
+function send_email_about_hub_booking_confirmation($params) {
+  $to = $params['email'];
+  $fname = $params['first-name'];
+  $lname = $params['last-name'];
+  $subject = !empty($params['subject']) ? $params['subject'] : "Your Hub booking is confirmed";
+  $headers .= "MIME-Version: 1.0"."\r\n";
+  $headers .= 'Content-type: text/html; charset=iso-8859-1'."\r\n";
+  $headers .= 'From:ITP HUB <info@itphub.com>'."\r\n";
+  $headers .= 'Cc: ' . HUB_ADMIN_EMAIL . '\r\n';
+  $message = file_get_contents('./html/email-confirm.html', true);
+  $ms = str_replace(array('[user_full_name]', '[hub_booking_date]', '[hub_booking_time]', '[no_of_person]'), array($fname . ' ' . $lname, $params['date'], $params['time-in-local'], $params['person']), $message);
+  $status = '';
+  try {
+    $status = mail($to, $subject, $ms, $headers);
+    echo '<script>An email has been sent on your entered email id about your Hub booking confirmation</script>';
+  }
+  catch(Exception $e) {
+    echo 'Message: ' . $e->getMessage();
+  }
+
+  return $status;
+
+}// end of send_email_about_hub_booking_confirmation

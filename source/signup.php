@@ -1,21 +1,21 @@
 <?php
-/*
- * @author Shahrukh Khan
- * @website http://www.thesoftwareguy.in
- * @facebbok https://www.facebook.com/Thesoftwareguy7
- * @twitter https://twitter.com/thesoftwareguy7
- * @googleplus https://plus.google.com/+thesoftwareguyIn
+
+/**
+ * File to create signup of user account
  */
 require_once('connect.php');
 $msg = '';
 if (!empty($_POST["fname"]) && !empty($_POST["lname"]) && !empty($_POST["pass1"]) && !empty($_POST["uemail"])) {
-  require_once "phpmailer/class.phpmailer.php";
+  //require_once "phpmailer/class.phpmailer.php";
   $fname = trim($_POST["fname"]);
   $lname = trim($_POST["lname"]);
   $pass = trim($_POST["pass1"]);
   $email = trim($_POST["uemail"]);
   $phone_number = trim($_POST['phone_number']);
   $email_exists = is_useremail_exists($conn, $email);
+  $isActive = 0;
+  $activationcode=md5($email.time());
+
   if (!empty($email_exists)) {
     $msg = "Email already exist";
     $msgType = "warning";
@@ -23,18 +23,25 @@ if (!empty($_POST["fname"]) && !empty($_POST["lname"]) && !empty($_POST["pass1"]
   else {
     $username = get_unique_username($conn, $fname, $lname, 0);
     $password = md5($pass);
-    $sql = "INSERT INTO `user` (`username`, `password`, `firstname`, `lastname`, `email`, `phone_number`) VALUES ('{$username}', '{$password}', '{$fname}', '{$lname}', '{$email}', '{$phone_number}');";
+    $sql = "INSERT INTO `user` (`username`, `password`, `firstname`, `lastname`, `email`, `phone_number`, `is_active`, `hash`) VALUES ('{$username}', '{$password}', '{$fname}', '{$lname}', '{$email}', '{$phone_number}', '{$isActive}', '{$activationcode}');";
     $result = mysqli_query($conn, $sql);
     if ($result) {
-      session_start();
 
-      // Store data in session variables
-      $_SESSION["loggedin"] = true;
-      $_SESSION["user_id"] = mysqli_insert_id($conn);
-      $_SESSION["username"] = $username;
+      $to = $email;
+      $activation_url = !empty($activationcode) ? BASE_URL . 'email_verification.php?token=' . $activationcode : '';
+      $email_params = array(
+        'activation_url' => $activation_url,
+        'name' => $fname . ' ' . $lname,
+        'username' => $username,
+        'password' => $pass,
+        'email' => $to,
+        'fname' => $fname,
+        'lname' => $lname,
+      );
+      send_email_for_account_activation($email_params);
 
-      // Redirect user to welcome page
-      header("location: index.php");
+      echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
+      echo "<script>window.location = 'login.php';</script>";
     }
     else {
       $msg = "Unable to create user account";

@@ -31,7 +31,9 @@
 					<form class="form-inline my-2 my-lg-0">
 					<?php
 						if (!empty($_SESSION['user_id'])) {
-							print '<div class="welcome-msg"> Welcome ' . $_SESSION['username'] . ' </div>';
+							$name = get_user_detail_by_user_id($conn, $_SESSION['user_id']);
+							$userName = $name['firstname']." ".$name['lastname'];
+							print '<div class="welcome-msg"> Welcome ' . $userName . ' </div>';
 							print '<a href="' . BASE_URL . 'logout.php" class="btn btn-outline-success my-2 my-sm-0 login">Logout</a>';
 						}
 						else {
@@ -45,17 +47,18 @@
 		</nav>
 		<section class="hero-area bg-1 text-center">
 			<div class=" slickslider-hero">
-        <img src="img/bg0.jpg" />
-        <img src="img/bg0.jpg" />
-        <img src="img/bg0.jpg" />
-        <img src="img/bg0.jpg" />
-        <img src="img/bg0.jpg" />
+        <img src="img/1.jpg" />
+        <img src="img/2.jpg" />
+        <img src="img/3.jpg" />
+        <img src="img/4.jpg" />
+				<img src="img/5.jpg" />
+				<img src="img/6.jpg" />
       </div>
         <!-- Container End -->
     </section>
 		<section class="hero-area  text-center slider-data" style="/* margin: 0 auto; */">
 			<!-- Container Start -->
-			<div class="container slider-container" >
+			<div class="container slider-container">
 				<div class="row select-option">
 					<div class="col-md-12">
 						<!-- Header Contetnt -->
@@ -66,7 +69,7 @@
 										class="select-label dtp-picker-selector-link selected-person" tabindex="-1"> 1 Person </a>
 										<select id="person-select" name="person-select" aria-label="party size" onchange="changeSelectedPerson()">
 										<?php
-											for ($i = 1; $i < 2; $i++) {
+											for ($i = 1; $i <= 2; $i++) {
 												print '<option value="' . $i . '">' . $i . ' Person</option>';
 											}
 										?>
@@ -98,14 +101,14 @@
 									?>
 									</div>
 								</div>
-								<input type="submit" value=" " class="button dtp-picker-button">
+								<input type="submit" value="Confirm your Booking →" class="button dtp-picker-button">
 							</form>
 						</div>
 					</div>
 				</div>
 				<div class="row slider-option">
 					<div class="col-md-12">
-						<h3>Select the equipment you require for your visit (if any)</h3>
+						<h3>We will have the below equipment ready for you:</h3>
 						<!--p><span>Total 16 results</span> <span class="text-right">Total 16 results</span></p-->
 					</div>
 					<div class="col-md-12">

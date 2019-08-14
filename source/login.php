@@ -4,9 +4,9 @@
 	session_start();
 
 	// Check if the user is already logged in, if yes then redirect him to welcome page
-	if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+	if(!empty($_SESSION["loggedin"])){
 		header("location: index.php");
-		exit;
+		exit();
 	}
 
 	// Include config file
@@ -43,19 +43,25 @@
 			$hash_password = md5($trimmed_password);
 
 			// Prepare a select statement
-			$sql = "SELECT user_id, username, password, email FROM user WHERE username='{$trimmed_username}' AND password='{$hash_password}' LIMIT 0, 1";
+			$sql = "SELECT user_id, username, password, email, is_active FROM user WHERE username='{$trimmed_username}' AND password='{$hash_password}' LIMIT 0, 1";
 			$result = mysqli_query($conn, $sql);
 			$row = mysqli_fetch_array($result);
 			if (!empty($row['user_id'])) {
-				session_start();
 
-				// Store data in session variables
-				$_SESSION["loggedin"] = true;
-				$_SESSION["user_id"] = $row['user_id'];
-				$_SESSION["username"] = $trimmed_username;
+				if (!empty($row['is_active'])) {
+					// Store data in session variables
+					$_SESSION["loggedin"] = true;
+					$_SESSION["user_id"] = $row['user_id'];
+					$_SESSION["username"] = $trimmed_username;
 
-				// Redirect user to welcome page
-				header("location: index.php");
+					// Redirect user to welcome page
+					header("location: index.php");
+				}
+				else {
+
+					// Display an error message if Account is not activated
+					$password_err = "Your account is not activated yet please activate it from the email which is sent at the time of Registration";
+				}
 			}
 			else {
 

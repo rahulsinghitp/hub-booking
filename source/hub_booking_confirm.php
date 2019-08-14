@@ -31,7 +31,7 @@
 		<link rel="stylesheet" type="text/css" href="css/slick.css"/>
 		<link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
 		<link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css"/>
-		<title>Hub Booking Confirm !</title>
+		<title>The Hub Booking Confirm !</title>
 	</head>
 	<body onload="startTimer()" class="bg-grey">
 		<nav class="navbar navbar-expand-lg   fixed-top">
@@ -44,7 +44,9 @@
 					<form class="form-inline my-2 my-lg-0">
 					<?php
 						if (!empty($_SESSION['user_id'])) {
-							print '<div class="welcome-msg"> Welcome ' . $_SESSION['username'] . ' </div>';
+							$name = get_user_detail_by_user_id($conn, $_SESSION['user_id']);
+							$userName = $name['firstname']." ".$name['lastname'];
+							print '<div class="welcome-msg"> Welcome ' . $userName . ' </div>';
 							print '<a href="' . BASE_URL . 'logout.php" class="btn btn-outline-success my-2 my-sm-0 login">Logout</a>';
 						}
 						else {
@@ -68,7 +70,7 @@
 							<div class="thumbnail-row">
                 <div class="hub-image"><img src="img/book.svg" alt="..." class="img-thumbnail"></div>
 								<div class="hub-data">
-                  <h2 class="hub">Hub</h2>
+                  <h2 class="hub">The Hub</h2>
                   <ul class="data-inputs  ">
                     <li>
                       <i class="fas fa-calendar-week"></i>
@@ -91,6 +93,7 @@
 									<input id="selected-date" type="hidden" name="date" value="<?php print $_POST['date']; ?>">
 									<input id="selected-person" type="hidden" name="person" value="<?php print $_POST['person-select']; ?>">
 									<input id="selected-time-in-gmt" type="hidden" name="time-in-gmt" value="<?php print $_POST['time-slot-select']; ?>">
+									<input id="selected-time-in-local" type="hidden" name="time-in-local" value="<?php print $availiable_timeslots[$_POST['time-slot-select']]; ?>">
 									<?php
 										$selected_equipments = array();
 										foreach ($_POST as $key => $data) {

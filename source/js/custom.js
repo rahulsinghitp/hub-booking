@@ -1,5 +1,5 @@
 // Global Variable
-var BasePath = 'http://192.168.0.81/hub-booking/source/';
+var BasePath = 'http://devhubs.itp.com/';
 
 function changeSelectedPerson() {
     var selectedPerson = $('#person-select').val();
@@ -66,7 +66,7 @@ function changeTimeSlotOptions(dateText) {
 $('.slider').slick({
   dots: true,
   infinite: false,
-  arrows    : false,
+  arrows : true,
   speed: 300,
   slidesToShow: 3,
   slidesToScroll: 1,
@@ -83,7 +83,7 @@ $('.slider').slick({
     {
       breakpoint: 600,
       settings: {
-        slidesToShow: 3,
+        slidesToShow: 1,
         slidesToScroll: 1
       }
     },

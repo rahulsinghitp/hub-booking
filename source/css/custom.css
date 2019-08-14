@@ -215,20 +215,7 @@ ul.data-inputs i {
 .row.select-option .col-md-12 {
     position: static;
 }
-.dtp-picker .dtp-picker-form.otkit .dtp-picker-button {
-    border-radius: 4px;
-    font-weight: 700;
-    position: absolute;
-    right: -25px;
-    top: 50%;
-    z-index: 1;
-    width: 50px;
-    height: 120px;
-    background-image: url(../img/arrow.png);
-    transform: translateY(-50%);
-    background-repeat: no-repeat;
-    background-position: center;
-}
+
 body.start .dtp-picker-button, body.home .dtp-picker-button {
     color: white;
     font-size: 1rem;
@@ -1102,12 +1089,10 @@ ul.data-inputs i {
     border-radius: 4px;
     font-weight: 700;
     position: absolute;
-    right: -25px;
-    top: 50%;
+    top: 100%;
     z-index: 1;
-    width: 50px;
-    height: 120px;
-    background-image: url(../img/arrow.png);
+    width: 200px;
+    height: 45px;
     transform: translateY(-50%);
     background-repeat: no-repeat;
     background-position: center;
@@ -1743,4 +1728,24 @@ margin: 10px 0px;
 
 .custom-brand img {
     max-width: 80px;
+}
+
+span.username-initials {
+    font-size: 14px;
+    background-color: red;
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 50%;
+    color: #fff;
+}
+.slick-prev {
+    left: -13px !important;
+}
+.slick-next {
+    right: -13px !important;
+}
+.slick-prev:before, .slick-next:before {
+    font-size: 12px !important;
+    opacity: 1 !important;
+    color: black !important;
 }
