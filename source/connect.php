@@ -74,7 +74,7 @@ function get_hub_booking_list($param = array()) {
   $conn = $param['connection'];
   $query = "SELECT * FROM hub_booking";
   if (!empty($param['hub_booking_date'])) {
-    $query .= " WHERE hub_booking_date='{$param['hub_booking_date']}'";
+    $query .= " WHERE hub_booking_date='{$param['hub_booking_date']}' AND hub_booking_confirmed='1'";
   }
   $query .= ';';
   $result = mysqli_query($conn, $query);
@@ -147,7 +147,6 @@ function is_username_exists($connect, $username) {
   return !empty($row['count']) ? true : false;
 }
 
-
 /**
  * function to create a new user
  */
@@ -168,7 +167,9 @@ function create_new_user_account($params) {
     return $data;
   }
 
-  // Check useremail exists or not
+  /**
+   * Check useremail exists or not
+   */
   $email_exists = is_useremail_exists($connect, $email);
   if ($email_exists) {
     $data = array(
@@ -202,7 +203,7 @@ function create_new_user_account($params) {
       'subject' => 'Your Hub account details',
       'message' => $message,
     );
-    send_email_for_account_activation($email_params);
+    //send_email_for_account_activation($email_params);
 
     $data = array(
       'success' => true,
@@ -236,7 +237,6 @@ function randomPassword() {
 
   return implode($pass); //turn the array into a string
 }
-
 
 /**
  * Function to check username already exist or not in system
@@ -277,19 +277,21 @@ function create_hub_booking_entry($params) {
 
     return $data;
   }
-  $sql = "INSERT INTO `hub_booking` (`hub_booking_date`, `hub_booking_time`, `hub_booking_equipments`, `hub_booking_purpose`, `hub_booking_user_id`, `hub_booking_no_of_persons`) VALUES ('{$date}', '{$gmt_time}', '{$equipment_ids}', '{$purpose}', '{$user_id}', '{$no_of_person}');";
+  $booking_hash = md5($user_id . time());
+  $sql = "INSERT INTO `hub_booking` (`hub_booking_date`, `hub_booking_time`, `hub_booking_equipments`, `hub_booking_purpose`, `hub_booking_user_id`, `hub_booking_no_of_persons`, `hub_booking_confirm_hash`) VALUES ('{$date}', '{$gmt_time}', '{$equipment_ids}', '{$purpose}', '{$user_id}', '{$no_of_person}', '{$booking_hash}');";
   $result = mysqli_query($conn, $sql);
   if ($result) {
+    $params['booking_hash'] = $booking_hash;
 
     // send email about the Hub booking confirmation
     send_email_about_hub_booking_confirmation($params);
     $data['success'] = 1;
     $data['booking_id'] = mysqli_insert_id($conn);
-    $data['msg'] = 'Thanks ' . $params['first-name'] . '! Your booking is confirmed';
+    $data['msg'] = 'Thanks ' . $params['first-name'] . '! A Hub booking confirmation link has sent on entered email please confirm your booking from it.';
   }
   else {
     $data['success'] = 0;
-    $data['msg'] = 'Sorry! Unable to book the HUB for you';
+    $data['msg'] = 'Sorry! Unable to book the Hub for you';
   }
 
   return $data;
@@ -341,13 +343,14 @@ function send_email_about_hub_booking_confirmation($params) {
   $to = $params['email'];
   $fname = $params['first-name'];
   $lname = $params['last-name'];
-  $subject = !empty($params['subject']) ? $params['subject'] : "Your Hub booking is confirmed";
+  $subject = !empty($params['subject']) ? $params['subject'] : "Hub booking confirmation email verification";
   $headers .= "MIME-Version: 1.0"."\r\n";
   $headers .= 'Content-type: text/html; charset=iso-8859-1'."\r\n";
   $headers .= 'From:ITP HUB <info@itphub.com>'."\r\n";
   $headers .= 'Cc: ' . HUB_ADMIN_EMAIL . '\r\n';
   $message = file_get_contents('./html/email-confirm.html', true);
-  $ms = str_replace(array('[user_full_name]', '[hub_booking_date]', '[hub_booking_time]', '[no_of_person]'), array($fname . ' ' . $lname, $params['date'], $params['time-in-local'], $params['person']), $message);
+  $booking_confirm_url = !empty($params['booking_hash']) ? BASE_URL . 'hub_booking_confirm_email.php?token=' . $params['booking_hash'] : '';
+  $ms = str_replace(array('[user_full_name]', '[hub_booking_date]', '[hub_booking_time]', '[no_of_person]', '[booking_confirm_url]'), array($fname . ' ' . $lname, $params['date'], $params['time-in-local'], $params['person'], $booking_confirm_url), $message);
   $status = '';
   try {
     $status = mail($to, $subject, $ms, $headers);
@@ -358,5 +361,4 @@ function send_email_about_hub_booking_confirmation($params) {
   }
 
   return $status;
-
 }// end of send_email_about_hub_booking_confirmation

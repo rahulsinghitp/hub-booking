@@ -149,9 +149,7 @@
 							<?php
 							  if (!empty($is_user_account_created)) {
 									print '<div class="alert alert-success">';
-									print 'Login Credentials: ';
-									print '<div> Username: ' . $user_account_details['username'] . '</div>';
-									print '<div> Password: ' . $user_account_details['password'] . '</div>';
+									print 'An email has sent about your login credentials on entered email id.';
 									print '</div>';
 								}
 							?>
